@@ -1,2 +1,1 @@
-# bojo_factory
-Bojo Factory Project
+# Bojo Factory Project
