@@ -10,10 +10,17 @@ body{
 .navbar{
     min-height: 50px;
     height: 50px;
+
+}
+
+.navbar-inverse .navbar-collapse {
+    border-color: #2196f3;
+    background-color: #2196f3;
 }
 
 .navbar-brand{
     padding: 12.5px 15px;
+    height: 25px;
 }
 
 @media (min-width: 768px) {
@@ -33,5 +40,4 @@ body{
 }
 label{
     font-size: 16px;
-
 }
