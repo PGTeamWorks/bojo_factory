@@ -1,6 +1,8 @@
 $(document).ready(function () {
     $('.numero').mask("99999999");
 
+    var placa = 8;
+
     var inputNumPedido = $('#numPedido');
     var inputNomeCliente = $('#nomeCliente');
     var inputBojoVermelho = $('#bojoVermelho');
@@ -19,6 +21,8 @@ $(document).ready(function () {
     var tecidoBrancoUtilizado = $('#tecido_branco_utilizado');
     var tecidoPretoUtilizado = $('#tecido_preto_utilizado');
     var espumaUtilizada = $('#espuma_utilizada');
+
+    var divResultado = $('#resultado');
 
     var estoque ={
         tecido_vermelho: 40,
@@ -57,12 +61,15 @@ $(document).ready(function () {
         pedido.bojoPreto = inputBojoPreto.val();
 
         calculaPedido(pedido);
-        calculaMaterial(pedido);
+        calculaMaterial(pedido.bojoVermelho);
         $('html, body').animate({scrollTop: 300}, 300);
     });
 
     /* Funções */
-
+    /**
+     * Recebe um pedido
+     * @param pedido
+     */
     function calculaPedido(pedido) {
 
         tecidoVermelhoUtilizado.html(materialGasto.tecidoVermelho);
@@ -85,12 +92,31 @@ $(document).ready(function () {
         $('form').trigger('reset');
     }
 
-    function calculaMaterial(pedido) {
-        var fabricado = (pedido.bojoVermelho * 1.1).toFixed();
-        var resto = (fabricado % 8).toFixed();
-        var dividido = (fabricado / 8).toFixed();
-        console.log(dividido * 8);
-        console.log('dividido: '+dividido+', resto: '+resto+', fabricado: '+fabricado);
+    /**
+     * Recebe uma quantidade do pedido de Bojo
+     * @param qtdeBojoPedido
+     * @returns {number} = Quantidade que será produzida
+     * considerando que só podem ser produzidos múltiplos de 8
+     * e a produção é sempre 10% maior para compensar falhas na produção
+     */
+    function calculaMaterial(qtdeBojoPedido) {
+        // Acrescente 10% à quantidade solicidada
+        var pedidoMais10p = (qtdeBojoPedido * 1.1).toFixed();
+        // Divide por 8
+        var dividido = (pedidoMais10p / placa).toFixed();
+
+        //Se a quantidade solicitada não for um múltiplo de 8, então serão produzido mais bojos para evitar
+        // que a prensa seja sub-utilizada.
+        var quantidade = (qtdeBojoPedido % placa != 0 ? dividido * placa : (dividido * placa) + placa);
+
+        /* Mensagem para debug */
+        var resultado = 'Quantidade produzida: '+quantidade+
+                        '. Pedido + 10%: '+pedidoMais10p+
+                        '. '+pedidoMais10p+' dividido por '+placa+' = '+dividido+', sobra '+pedidoMais10p % placa;
+
+        console.log(resultado);
+
+        return quantidade;
     }
 
 });
