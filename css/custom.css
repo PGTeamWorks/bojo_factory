@@ -4,9 +4,8 @@ html {
     min-height: 100%;
 }
 body{
-    padding-top:95px;
+    padding-top:75px;
 }
-<<<<<<< HEAD
 
 .navbar{
     min-height: 50px;
@@ -26,7 +25,7 @@ body{
 
 .navbar-toggle{
     padding: 2px 10px;
-=======
+
 .footer {
     padding-top: 19px;
     color: #777;
@@ -34,5 +33,5 @@ body{
 }
 label{
     font-size: 16px;
->>>>>>> 92b8ffa55ee0ad14fa434ed01e7798b9855640ac
+
 }
