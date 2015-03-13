@@ -1,1 +1,3 @@
-/* Aqui fica o JavaScript customizado */
+$(document).ready(function () {
+    $('.numero').mask("99999999");
+});
