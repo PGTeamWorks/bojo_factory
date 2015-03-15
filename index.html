@@ -158,10 +158,35 @@
     </div>
 
     <div class="row">
+        <div class="col-md-12">
+            <p class="page-header lead">Total de Materiais gastos</p>
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th><h6>Tecido Vermelho</h6></th>
+                    <th><h6>Tecido Branco</h6></th>
+                    <th><h6>Tecido Preto</h6></th>
+                    <th><h6>Espuma</h6></th>
+                </tr>
+                <tr>
+                    <td><span id="#acumTcVermelho">...</span> metros</td>
+                    <td><span id="acumTcBranco">...</span> metros</td>
+                    <td><span id="acumTcPreto">...</span> metros</td>
+                    <td><span id="espuma_utilizada">...</span> kg</td>
+                </tr>
+
+                </thead>
+            </table>
+    </div>
+
+
+    <div class="row">
         <div class="col-md-6">
             <p class="page-header lead">Material gasto no pedido</p>
 
-            <table class="table table-striped table-hover">
+            <div class="list-group" id="materialGastoList"></div>
+
+                <!--<table class="table table-striped table-hover">
                 <thead>
                 <tr>
                     <th><h6>Material</h6></th>
@@ -187,7 +212,8 @@
                 </tr>
                 </tbody>
             </table>
-            <div id="resultado"></div>
+            <div id="resultado"></div> -->
+
         </div>
         <div class="col-md-6">
             <p class="page-header lead">Pedidos</p>
