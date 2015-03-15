@@ -1,11 +1,6 @@
 $(document).ready(function () {
     $('.numero').mask("99999999");
 
-    var totalBojo = 0;
-    var acumTcVermelho = $('#');
-    var acumTcBranco = $('#');
-    var acumTcPreto = $('#');
-
     var placa = 8;
 
     var inputNumPedido = $('#numPedido');
@@ -23,11 +18,6 @@ $(document).ready(function () {
     var qtdeTecidoBranco = $('#qtde_tecido_branco');
     var qtdeTecidoPreto = $('#qtde_tecido_preto');
     var qtdeEspuma = $('#qtde_espuma');
-
-    var tecidoVermelhoUtilizado = $('#tecido_vermelho_utilizado');
-    var tecidoBrancoUtilizado = $('#tecido_branco_utilizado');
-    var tecidoPretoUtilizado = $('#tecido_preto_utilizado');
-    var espumaUtilizada = $('#espuma_utilizada');
 
     var divResultado = $('#resultado');
 
@@ -58,6 +48,8 @@ $(document).ready(function () {
         espuma: 0
     };
 
+    var somaTecido = 0;
+
     btnGravar.click(function(e){
         materialGasto.espuma = 0;
         e.preventDefault();
@@ -68,58 +60,87 @@ $(document).ready(function () {
         pedido.bojoBranco = inputBojoBranco.val();
         pedido.bojoPreto = inputBojoPreto.val();
 
-        calculaPedido(pedido);
+        calculaGasto(pedido);
+        showPedido(pedido);
+        showMaterialGasto(materialGasto);
 
-        espumaUtilizada.html(totalBojo.toFixed(1));
-
-        $('html, body').animate({scrollTop: 300}, 300);
+       $('html, body').animate({scrollTop: 300}, 300);
     });
 
     /* Funções */
     /**
-     * Recebe um pedido
      * @param pedido
+     * Mostra um pedio feito pelo usuário
      */
-    function calculaPedido(pedido) {
-
-        qtdeTecidoVermelho.html((estoque.tecido_vermelho - calculaTecido(calculaMaterial(pedido.bojoVermelho))).toFixed(1));
-        qtdeTecidoBranco.html((estoque.tecido_branco  - calculaTecido(calculaMaterial(pedido.bojoBranco))).toFixed(1));
-        qtdeTecidoPreto.html((estoque.tecido_preto - calculaTecido(calculaMaterial(pedido.bojoPreto))).toFixed(1));
-        qtdeEspuma.html((estoque.espuma -= materialGasto.espuma).toFixed(1))
+    function showPedido(pedido) {
 
         var boxPedido = '<div class="list-group-item">'+
-            '<h4 class="list-group-item-heading page-header">Pedido Nº '+pedido.numPedido+', '+pedido.nomeCliente+'</h4>'+
-            '<dl class="dl-horizontal">'+
-                '<dt>Bojos vermelhos</dt>'+
-                    '<dd>'+pedido.bojoVermelho+'</dd>'+
-                '<dt>Bojos Brancos</dt>'+
-                    '<dd>'+pedido.bojoBranco+'</dd>'+
-                '<dt>Bojos Pretos</dt>'+
-                    '<dd>'+pedido.bojoPreto+'</dd>'+
-                '</dl>'+
-            '</div>';
+                        '<h4 class="list-group-item-heading page-header">Pedido Nº '+pedido.numPedido+', '+pedido.nomeCliente+'</h4>'+
+                        '<dl class="dl-horizontal">'+
+                            '<dt>Bojos vermelhos</dt>'+
+                                '<dd>'+pedido.bojoVermelho+'</dd>'+
+                            '<dt>Bojos Brancos</dt>'+
+                                '<dd>'+pedido.bojoBranco+'</dd>'+
+                            '<dt>Bojos Pretos</dt>'+
+                                '<dd>'+pedido.bojoPreto+'</dd>'+
+                            '</dl>'+
+                        '</div>';
 
         pedidoList.append(boxPedido).hide().fadeIn(1000);
+
+        $('form').trigger('reset');
+    }
+
+    /**
+     * @param materialGasto
+     * Mostra o Material gasto no pedido feito pelo usário
+     */
+    function showMaterialGasto(materialGasto){
 
         var boxMaterialGasto = '<div class="list-group-item">'+
             '<h4 class="list-group-item-heading page-header">Pedido Nº '+pedido.numPedido+', '+pedido.nomeCliente+'</h4>'+
             '<dl class="dl-horizontal mg-zero">'+
             '<dt>Tecido vermelhos</dt>'+
-            '<dd>'+calculaTecido(calculaMaterial(pedido.bojoVermelho))+'</dd>'+
+            '<dd>'+materialGasto.tecidoVermelho+'</dd>'+
             '<dt>Tecido Brancos</dt>'+
-            '<dd>'+calculaTecido(calculaMaterial(pedido.bojoBranco))+'</dd>'+
+            '<dd>'+materialGasto.tecidoBranco+'</dd>'+
             '<dt>Tecido Pretos</dt>'+
-            '<dd>'+calculaTecido(calculaMaterial(pedido.bojoPreto))+'</dd>'+
+            '<dd>'+materialGasto.tecidoPreto+'</dd>'+
             '<dt>Espuma</dt>'+
-            '<dd>'+materialGasto.espuma.toFixed(1)+'</dd>'+
+            '<dd>'+materialGasto.espuma+'</dd>'+
             '</dl>'+
             '</div>';
 
         materialGastoList.append(boxMaterialGasto).hide().fadeIn(1000);
+    }
 
-        materialGasto.espuma = 0;
+    /**
+     *
+     * @param pedido
+     * Calcula a quantidade de materiais gastos para fabricar um pedido
+     * gasto de tecido vermelho, tecido branco, tecido preto e espuma
+     */
+   function calculaGasto(pedido){
 
-        $('form').trigger('reset');
+       var tv = calculaTecido(calculaMaterial(pedido.bojoVermelho));
+       var tb = calculaTecido(calculaMaterial(pedido.bojoBranco));
+       var tp = calculaTecido(calculaMaterial(pedido.bojoPreto));
+
+       materialGasto.tecidoVermelho = tv;
+       materialGasto.tecidoBranco = tb
+       materialGasto.tecidoPreto = tp
+
+
+       qtdeTecidoVermelho.html((estoque.tecido_vermelho -= tv).toFixed(1));
+       qtdeTecidoBranco.html((estoque.tecido_branco -= tb).toFixed(1));
+       qtdeTecidoPreto.html((estoque.tecido_preto -= tp).toFixed(1));
+
+       materialGasto.espuma = calculaEspuma(somaTecido);
+
+       console.log('Materias gasto: \n Tecido Vermelho: '+tv+'m'+
+                    '\n Tecido Branco: '+tb+'m'+
+                    '\n Tecido Preto: '+tp+'m'+
+                    '\n Espuma: '+materialGasto.espuma);
     }
 
     /**
@@ -144,32 +165,35 @@ $(document).ready(function () {
 
         //Se a quantidade solicitada não for um múltiplo de 8, então serão produzido mais bojos para evitar
         // que a prensa seja sub-utilizada.
-         quantidade = (qtdeBojoPedido % placa != 0 ? dividido * placa : (dividido * placa) + placa);
+        quantidade = (qtdeBojoPedido % placa != 0 ? dividido * placa : (dividido * placa) + placa);
 
         /* Mensagem para debug */
         var resultado = 'Quantidade produzida: '+quantidade+
             '. Pedido + 10%: '+pedidoMais10p+
             '. '+pedidoMais10p+' dividido por '+placa+' = '+dividido+', sobra '+pedidoMais10p % placa;
 
-        console.log(resultado);
+        somaTecido += quantidade;
 
-        calcularTotalEspuma(quantidade);
+        console.log(resultado);
 
         return quantidade;
     }
 
-   function calcularTotalEspuma(qntBojoPedido){
+    function calculaTecido(qntTecido){
 
-        qntBojoPedido = qntBojoPedido * (0.15);
-        totalBojo += qntBojoPedido;
-        materialGasto.espuma = qntBojoPedido;
-
+        qntTecido = qntTecido * 0.05;
+        return qntTecido.toFixed(1);
     }
 
-    function calculaTecido(producao){
+    function calculaEspuma(qntEspuma){
 
-        producao =  producao * (0.05);
-        return producao.toFixed(1);
+        somaTecido = 0;
+
+        qntEspuma = qntEspuma * 0.15;
+
+        qtdeEspuma.html((estoque.espuma -= qntEspuma).toFixed(1));
+
+        return qntEspuma.toFixed(1);
     }
 
 });
