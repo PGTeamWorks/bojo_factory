@@ -1,4 +1,5 @@
 $(document).ready(function () {
+
     $('.numero').mask("99999999");
 
     var placa = 8;
@@ -51,6 +52,7 @@ $(document).ready(function () {
 
     var somaTecido = 0;
 
+
     btnGravar.click(function(e){
         e.preventDefault();
 
@@ -61,6 +63,9 @@ $(document).ready(function () {
         pedido.bojoVermelho = inputBojoVermelho.val();
         pedido.bojoBranco = inputBojoBranco.val();
         pedido.bojoPreto = inputBojoPreto.val();
+
+        if(!verificaPedido(pedido))
+            return;
 
         calculaGasto(pedido);
 
@@ -74,11 +79,31 @@ $(document).ready(function () {
     });
 
     /* Funções */
+
+    /**
+     * Verifica o pedido    *** incompleto ***
+     * @param pedido
+     */
+    function verificaPedido(pedido){
+
+        pedido.valido = true;
+
+        if(pedido.numPedido == ""){
+            $('#numPedido').val("informe").addClass('informe');
+            pedido.valido = false
+        }
+        if(pedido.nomeCliente == ""){
+            $('#nomeCliente').val("informe").addClass('informe');
+            pedido.valido = false
+        }
+    }
+
     /**
      * @param pedido
      * Mostra um pedio feito pelo usuário
      */
-    function showPedido(pedido) {
+
+     function showPedido(pedido) {
 
         var boxPedido = '<div class="list-group-item">'+
                             '<h4 class="list-group-item-heading page-header">Pedido Nº '+pedido.numPedido+', '+pedido.nomeCliente+'</h4>'+
@@ -128,6 +153,8 @@ $(document).ready(function () {
      * Calcula a quantidade de materiais gastos para fabricar um pedido
      * gasto de tecido vermelho, tecido branco, tecido preto e espuma
      */
+
+    /* calcula-se o gasto necessario para que possa se realizar o pedido de um cliente e salva em um loq no console */
    function calculaGasto(pedido){
 
         pedido.valido = true;
@@ -193,12 +220,15 @@ $(document).ready(function () {
         return quantidade;
     }
 
+    /* Calcula a quantidade de tecido total para o calculo da espuma que de ver feito com toda a fabricação
+    * não apenas com o pedido feito pelo cliente */
     function calculaTecido(qntTecido){
 
         qntTecido = qntTecido * 0.05;
         return qntTecido.toFixed(1);
     }
 
+    /* Calculo da espuma e subtração do estoque total de espuma*/
     function calculaEspuma(qntEspuma){
 
         somaTecido = 0;
@@ -210,11 +240,15 @@ $(document).ready(function () {
         return qntEspuma.toFixed(1);
     }
 
+    /* verifica estoque
+    * se nao tiver o estoque é adicionada classes para avisar o usuário
+    * que não possui estoque suficiente para pedido */
     function verifcaEstoque(tv,tb,tp){
 
         var temEstoque = true;
 
         if(tv > estoque.tecido_vermelho){
+
             $(".tecido-vermelho").addClass('changeEstoqueInsuficiente');
             $(".tecido-vermelho").addClass('estoqueInsuficiente');
             temEstoque = false;
@@ -225,6 +259,7 @@ $(document).ready(function () {
             temEstoque = false;
         }
         if(tp > estoque.tecido_preto){
+
             $(".tecido-preto").addClass('changeEstoqueInsuficiente');
             $(".tecido-preto").addClass('estoqueInsuficiente');
             temEstoque = false;
