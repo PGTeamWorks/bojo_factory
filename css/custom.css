@@ -46,3 +46,13 @@ label{
 .mg-zero{
     margin: 0px;
 }
+
+.estoqueInsuficiente::after{
+    color: #ff0000;
+    font-weight: bold;
+    content: " Saldo Insuficiente";
+}
+.changeEstoqueInsuficiente{
+    color: #ff0000;
+    font-weight: bold;
+}

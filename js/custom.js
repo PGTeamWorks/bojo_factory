@@ -38,7 +38,8 @@ $(document).ready(function () {
         nomeCliente: '',
         bojoVermelho: 0,
         bojoBranco: 0,
-        bojoPreto: 0
+        bojoPreto: 0,
+        valido:true
     };
 
     var materialGasto = {
@@ -51,8 +52,9 @@ $(document).ready(function () {
     var somaTecido = 0;
 
     btnGravar.click(function(e){
-        materialGasto.espuma = 0;
         e.preventDefault();
+
+        materialGasto.espuma = 0;
 
         pedido.numPedido = inputNumPedido.val();
         pedido.nomeCliente = inputNomeCliente.val();
@@ -61,6 +63,10 @@ $(document).ready(function () {
         pedido.bojoPreto = inputBojoPreto.val();
 
         calculaGasto(pedido);
+
+        if(!pedido.valido)
+            return;
+
         showPedido(pedido);
         showMaterialGasto(materialGasto);
 
@@ -75,15 +81,15 @@ $(document).ready(function () {
     function showPedido(pedido) {
 
         var boxPedido = '<div class="list-group-item">'+
-                        '<h4 class="list-group-item-heading page-header">Pedido Nº '+pedido.numPedido+', '+pedido.nomeCliente+'</h4>'+
-                        '<dl class="dl-horizontal">'+
-                            '<dt>Bojos vermelhos</dt>'+
-                                '<dd>'+pedido.bojoVermelho+'</dd>'+
-                            '<dt>Bojos Brancos</dt>'+
-                                '<dd>'+pedido.bojoBranco+'</dd>'+
-                            '<dt>Bojos Pretos</dt>'+
-                                '<dd>'+pedido.bojoPreto+'</dd>'+
-                            '</dl>'+
+                            '<h4 class="list-group-item-heading page-header">Pedido Nº '+pedido.numPedido+', '+pedido.nomeCliente+'</h4>'+
+                            '<dl class="dl-horizontal">'+
+                                '<dt>Bojos vermelhos</dt>'+
+                                    '<dd>'+pedido.bojoVermelho+'</dd>'+
+                                '<dt>Bojos Brancos</dt>'+
+                                    '<dd>'+pedido.bojoBranco+'</dd>'+
+                                '<dt>Bojos Pretos</dt>'+
+                                    '<dd>'+pedido.bojoPreto+'</dd>'+
+                                '</dl>'+
                         '</div>';
 
         pedidoList.append(boxPedido).hide().fadeIn(1000);
@@ -93,25 +99,27 @@ $(document).ready(function () {
 
     /**
      * @param materialGasto
-     * Mostra o Material gasto no pedido feito pelo usário
+     * Mostra o Material gasto no Pedido feito pelo usário
      */
     function showMaterialGasto(materialGasto){
 
         var boxMaterialGasto = '<div class="list-group-item">'+
-            '<h4 class="list-group-item-heading page-header">Pedido Nº '+pedido.numPedido+', '+pedido.nomeCliente+'</h4>'+
-            '<dl class="dl-horizontal mg-zero">'+
-            '<dt>Tecido vermelhos</dt>'+
-            '<dd>'+materialGasto.tecidoVermelho+'</dd>'+
-            '<dt>Tecido Brancos</dt>'+
-            '<dd>'+materialGasto.tecidoBranco+'</dd>'+
-            '<dt>Tecido Pretos</dt>'+
-            '<dd>'+materialGasto.tecidoPreto+'</dd>'+
-            '<dt>Espuma</dt>'+
-            '<dd>'+materialGasto.espuma+'</dd>'+
-            '</dl>'+
-            '</div>';
+                                    '<h4 class="list-group-item-heading page-header">Pedido Nº '+pedido.numPedido+', '+pedido.nomeCliente+'</h4>'+
+                                    '<dl class="dl-horizontal mg-zero">'+
+                                        '<dt>Tecido vermelhos</dt>'+
+                                            '<dd>'+materialGasto.tecidoVermelho+'</dd>'+
+                                        '<dt>Tecido Brancos</dt>'+
+                                            '<dd>'+materialGasto.tecidoBranco+'</dd>'+
+                                        '<dt>Tecido Pretos</dt>'+
+                                            '<dd>'+materialGasto.tecidoPreto+'</dd>'+
+                                        '<dt>Espuma</dt>'+
+                                            '<dd>'+materialGasto.espuma+'</dd>'+
+                                    '</dl>'+
+                                '</div>';
 
         materialGastoList.append(boxMaterialGasto).hide().fadeIn(1000);
+
+        $('form').trigger('reset');
     }
 
     /**
@@ -122,25 +130,31 @@ $(document).ready(function () {
      */
    function calculaGasto(pedido){
 
-       var tv = calculaTecido(calculaMaterial(pedido.bojoVermelho));
-       var tb = calculaTecido(calculaMaterial(pedido.bojoBranco));
-       var tp = calculaTecido(calculaMaterial(pedido.bojoPreto));
+        pedido.valido = true;
 
-       materialGasto.tecidoVermelho = tv;
-       materialGasto.tecidoBranco = tb
-       materialGasto.tecidoPreto = tp
+       var tecidoVermelhoGasto = calculaTecido(calculaMaterial(pedido.bojoVermelho));
+       var tecidoBrancoGasto = calculaTecido(calculaMaterial(pedido.bojoBranco));
+       var tecidoPretoGasto = calculaTecido(calculaMaterial(pedido.bojoPreto));
 
+        if(verifcaEstoque(tecidoVermelhoGasto,tecidoBrancoGasto,tecidoPretoGasto) == false){
+            pedido.valido = false;
+            return;
+        }
 
-       qtdeTecidoVermelho.html((estoque.tecido_vermelho -= tv).toFixed(1));
-       qtdeTecidoBranco.html((estoque.tecido_branco -= tb).toFixed(1));
-       qtdeTecidoPreto.html((estoque.tecido_preto -= tp).toFixed(1));
+       materialGasto.tecidoVermelho = tecidoVermelhoGasto;
+       materialGasto.tecidoBranco = tecidoBrancoGasto;
+       materialGasto.tecidoPreto = tecidoPretoGasto;
+
+        qtdeTecidoVermelho.html((estoque.tecido_vermelho -= tecidoVermelhoGasto).toFixed(1) );
+       qtdeTecidoBranco.html((estoque.tecido_branco -= tecidoBrancoGasto).toFixed(1));
+       qtdeTecidoPreto.html((estoque.tecido_preto -= tecidoPretoGasto).toFixed(1));
 
        materialGasto.espuma = calculaEspuma(somaTecido);
 
-       console.log('Materias gasto: \n Tecido Vermelho: '+tv+'m'+
-                    '\n Tecido Branco: '+tb+'m'+
-                    '\n Tecido Preto: '+tp+'m'+
-                    '\n Espuma: '+materialGasto.espuma);
+       console.log('Materias gastos:\nTecido Vermelho: '+tecidoVermelhoGasto+'m'+
+                    '\nTecido Branco: '+tecidoBrancoGasto+'m'+
+                    '\nTecido Preto: '+tecidoPretoGasto+'m'+
+                    '\nEspuma: '+materialGasto.espuma+'kg');
     }
 
     /**
@@ -194,6 +208,40 @@ $(document).ready(function () {
         qtdeEspuma.html((estoque.espuma -= qntEspuma).toFixed(1));
 
         return qntEspuma.toFixed(1);
+    }
+
+    function verifcaEstoque(tv,tb,tp){
+
+        var temEstoque = true;
+
+        if(tv > estoque.tecido_vermelho){
+            $(".tecido-vermelho").addClass('changeEstoqueInsuficiente');
+            $(".tecido-vermelho").addClass('estoqueInsuficiente');
+            temEstoque = false;
+        }
+        if(tb > estoque.tecido_branco){
+            $(".tecido-branco").addClass('changeEstoqueInsuficiente');
+            $(".tecido-branco").addClass('estoqueInsuficiente');
+            temEstoque = false;
+        }
+        if(tp > estoque.tecido_preto){
+            $(".tecido-preto").addClass('changeEstoqueInsuficiente');
+            $(".tecido-preto").addClass('estoqueInsuficiente');
+            temEstoque = false;
+        }
+
+        if(temEstoque == true) {
+
+            $(".tecido-vermelho").removeClass('estoqueInsuficiente');
+            $(".tecido-vermelho").removeClass('changeEstoqueInsuficiente');
+            $(".tecido-branco").removeClass('estoqueInsuficiente');
+            $(".tecido-branco").removeClass('changeEstoqueInsuficiente');
+            $(".tecido-branco").removeClass('estoqueInsuficiente');
+            $(".tecido-branco").removeClass('changeEstoqueInsuficiente');
+        }
+
+        return temEstoque;
+
     }
 
 });
