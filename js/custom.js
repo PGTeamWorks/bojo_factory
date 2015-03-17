@@ -158,7 +158,7 @@ $(document).ready(function () {
         var boxPedido = '<div class="list-group-item active">' +
             '<h4 class="list-group-item-heading page-header"><i class="glyphicon glyphicon-circle-arrow-right"></i> Pedido Nº ' + pedido.numPedido + ', ' + pedido.nomeCliente + '</h4>' +
             '<dl class="dl-horizontal">' +
-            '<dt>Bojos vermelhos</dt>' +
+            '<dt>Bojos Vermelhos</dt>' +
             '<dd>' + pedido.bojoVermelho + '</dd>' +
             '<dt>Bojos Brancos</dt>' +
             '<dd>' + pedido.bojoBranco + '</dd>' +
