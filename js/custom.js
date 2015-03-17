@@ -37,8 +37,11 @@ $(document).ready(function () {
         numPedido: 0,
         nomeCliente: '',
         bojoVermelho: 0,
+        bojoVermelhoProduzido: 0,
         bojoBranco: 0,
+        bojoBrancoProduzido: 0,
         bojoPreto: 0,
+        bojoPretoProduzido: 0,
         valido: false
     };
 
@@ -47,6 +50,13 @@ $(document).ready(function () {
         tecidoBranco: 0,
         tecidoPreto: 0,
         espuma: 0
+    };
+
+    var producaoTotal = {
+        bojoVermelho: 0,
+        bojoBranco: 0,
+        bojoPreto: 0,
+        soma: 0
     };
 
     var somaTecido = 0;
@@ -138,8 +148,8 @@ $(document).ready(function () {
 
     function showPedido(pedido) {
 
-        var boxPedido = '<div class="list-group-item">' +
-            '<h4 class="list-group-item-heading page-header">Pedido Nº ' + pedido.numPedido + ', ' + pedido.nomeCliente + '</h4>' +
+        var boxPedido = '<div class="list-group-item active">' +
+            '<h4 class="list-group-item-heading page-header"><i class="glyphicon glyphicon-circle-arrow-right"></i> Pedido Nº ' + pedido.numPedido + ', ' + pedido.nomeCliente + '</h4>' +
             '<dl class="dl-horizontal">' +
             '<dt>Bojos vermelhos</dt>' +
             '<dd>' + pedido.bojoVermelho + '</dd>' +
@@ -148,6 +158,11 @@ $(document).ready(function () {
             '<dt>Bojos Pretos</dt>' +
             '<dd>' + pedido.bojoPreto + '</dd>' +
             '</dl>' +
+                '<div><i class="glyphicon glyphicon-asterisk"></i> <strong>Bojos produzidos:</strong> ' +
+                    'Vermelho: '+pedido.bojoVermelhoProduzido+', ' +
+                    'Branco: '+pedido.bojoBrancoProduzido+', ' +
+                    'Preto: '+pedido.bojoPretoProduzido+
+                '</div>'+
             '</div>';
 
         pedidoList.append(boxPedido).hide().fadeIn(1000);
@@ -163,15 +178,15 @@ $(document).ready(function () {
 
         var boxMaterialGasto = '<div class="list-group-item">' +
             '<h4 class="list-group-item-heading page-header">Pedido Nº ' + pedido.numPedido + ', ' + pedido.nomeCliente + '</h4>' +
-            '<dl class="dl-horizontal mg-zero">' +
-            '<dt>Tecido vermelhos</dt>' +
-            '<dd>' + materialGasto.tecidoVermelho + '</dd>' +
-            '<dt>Tecido Brancos</dt>' +
-            '<dd>' + materialGasto.tecidoBranco + '</dd>' +
-            '<dt>Tecido Pretos</dt>' +
-            '<dd>' + materialGasto.tecidoPreto + '</dd>' +
+            '<dl class="dl-horizontal">' +
+            '<dt>Tecido vermelho</dt>' +
+            '<dd>' + materialGasto.tecidoVermelho + ' kg</dd>' +
+            '<dt>Tecido Branco</dt>' +
+            '<dd>' + materialGasto.tecidoBranco + ' kg</dd>' +
+            '<dt>Tecido Preto</dt>' +
+            '<dd>' + materialGasto.tecidoPreto + ' kg</dd>' +
             '<dt>Espuma</dt>' +
-            '<dd>' + materialGasto.espuma + '</dd>' +
+            '<dd>' + materialGasto.espuma + ' m</dd>' +
             '</dl>' +
             '</div>';
 
@@ -191,10 +206,13 @@ $(document).ready(function () {
     function calculaGasto(pedido) {
 
         pedido.valido = true;
+        pedido.bojoVermelhoProduzido = calculaMaterial(pedido.bojoVermelho);
+        pedido.bojoBrancoProduzido = calculaMaterial(pedido.bojoBranco);
+        pedido.bojoPretoProduzido = calculaMaterial(pedido.bojoPreto);
 
-        materialGasto.tecidoVermelho = calculaTecido(calculaMaterial(pedido.bojoVermelho));
-        materialGasto.tecidoBranco = calculaTecido(calculaMaterial(pedido.bojoBranco));
-        materialGasto.tecidoPreto = calculaTecido(calculaMaterial(pedido.bojoPreto));
+        materialGasto.tecidoVermelho = calculaTecido(pedido.bojoVermelhoProduzido);
+        materialGasto.tecidoBranco = calculaTecido(pedido.bojoBrancoProduzido);
+        materialGasto.tecidoPreto = calculaTecido(pedido.bojoPretoProduzido);
         materialGasto.espuma = calculaEspuma(somaTecido);
 
         if (verifcaEstoque(materialGasto.tecidoVermelho, materialGasto.tecidoBranco, materialGasto.tecidoPreto, materialGasto.espuma) == false) {
@@ -202,10 +220,25 @@ $(document).ready(function () {
             return;
         }
 
+        producaoTotal.bojoVermelho += pedido.bojoVermelhoProduzido;
+        producaoTotal.bojoBranco += pedido.bojoBrancoProduzido;
+        producaoTotal.bojoPreto += pedido.bojoPretoProduzido;
+        producaoTotal.soma =+ (producaoTotal.bojoVermelho +
+                                producaoTotal.bojoBranco +
+                                producaoTotal.bojoPreto);
+
         qtdeTecidoVermelho.html((estoque.tecido_vermelho -= materialGasto.tecidoVermelho).toFixed(1));
         qtdeTecidoBranco.html((estoque.tecido_branco -= materialGasto.tecidoBranco).toFixed(1));
         qtdeTecidoPreto.html((estoque.tecido_preto -= materialGasto.tecidoPreto).toFixed(1));
         qtdeEspuma.html((estoque.espuma -= materialGasto.espuma).toFixed(1));
+
+        $('#producao').html('<div class="alert alert-dismissible alert-success">' +
+        '<button type="button" class="close" data-dismiss="alert">×</button>' +
+        '<h4 class="list-group-item-heading"><i class="glyphicon glyphicon-transfer"></i> Produção</h4>' +
+                            '<strong>Bojo Vermelho:</strong> '+producaoTotal.bojoVermelho+' | ' +
+                            '<strong>Bojo Branco:</strong> '+producaoTotal.bojoBranco+' | ' +
+                            '<strong>Bojo Preto:</strong> '+producaoTotal.bojoPreto+' | '+
+                            '<br><strong>Total:</strong> '+producaoTotal.soma+'</div>').hide().fadeIn();
 
         console.log('Materias gastos:\nTecido Vermelho: ' + materialGasto.tecidoVermelho + 'm' +
         '\nTecido Branco: ' + materialGasto.tecidoBranco + 'm' +
@@ -240,7 +273,7 @@ $(document).ready(function () {
 
         /* Mensagem para debug */
         var resultado = 'Quantidade produzida: ' + quantidade +
-            '. Pedido + 10%: ' + pedidoMais10p +
+            '. \nPedido + 10%: ' + pedidoMais10p +
             '. ' + pedidoMais10p + ' dividido por ' + placa + ' = ' + dividido + ', sobra ' + pedidoMais10p % placa;
 
         somaTecido += quantidade;
