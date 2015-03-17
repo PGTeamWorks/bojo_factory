@@ -59,6 +59,13 @@ $(document).ready(function () {
         soma: 0
     };
 
+    var gastoTotal = {
+        tecidoVermelho: 0,
+        tecidoBranco: 0,
+        tecidoPreto: 0,
+        espuma: 0
+    };
+
     var somaTecido = 0;
 
 
@@ -223,9 +230,14 @@ $(document).ready(function () {
         producaoTotal.bojoVermelho += pedido.bojoVermelhoProduzido;
         producaoTotal.bojoBranco += pedido.bojoBrancoProduzido;
         producaoTotal.bojoPreto += pedido.bojoPretoProduzido;
-        producaoTotal.soma =+ (producaoTotal.bojoVermelho +
+        producaoTotal.soma = (producaoTotal.bojoVermelho +
                                 producaoTotal.bojoBranco +
                                 producaoTotal.bojoPreto);
+
+        gastoTotal.tecidoVermelho += Number(materialGasto.tecidoVermelho);
+        gastoTotal.tecidoBranco += Number(materialGasto.tecidoBranco);
+        gastoTotal.tecidoPreto += Number(materialGasto.tecidoPreto);
+        gastoTotal.espuma += Number(materialGasto.espuma);
 
         qtdeTecidoVermelho.html((estoque.tecido_vermelho -= materialGasto.tecidoVermelho).toFixed(1));
         qtdeTecidoBranco.html((estoque.tecido_branco -= materialGasto.tecidoBranco).toFixed(1));
@@ -239,6 +251,14 @@ $(document).ready(function () {
                             '<strong>Bojo Branco:</strong> '+producaoTotal.bojoBranco+' | ' +
                             '<strong>Bojo Preto:</strong> '+producaoTotal.bojoPreto+' | '+
                             '<br><strong>Total:</strong> '+producaoTotal.soma+'</div>').hide().fadeIn();
+
+        $('#uso_material').html('<div class="alert alert-dismissible alert-info">' +
+        '<button type="button" class="close" data-dismiss="alert">×</button>' +
+        '<h4 class="list-group-item-heading"><i class="glyphicon glyphicon-transfer"></i> Material utilizado</h4>' +
+                            '<strong>Tecido Vermelho:</strong> '+gastoTotal.tecidoVermelho.toFixed(1)+' kg | ' +
+                            '<strong>Tecido Branco:</strong> '+gastoTotal.tecidoBranco.toFixed(1)+' kg | ' +
+                            '<strong>Tecido Preto:</strong> '+gastoTotal.tecidoPreto.toFixed(1)+' kg | '+
+                            '<br><strong>Espuma:</strong> '+gastoTotal.espuma.toFixed(1)+' m</div>').hide().fadeIn();
 
         console.log('Materias gastos:\nTecido Vermelho: ' + materialGasto.tecidoVermelho + 'm' +
         '\nTecido Branco: ' + materialGasto.tecidoBranco + 'm' +
