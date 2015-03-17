@@ -1,4 +1,5 @@
 # Bojo Factory Project
+### Paulo Vinicius & Guilherme Felipe
 
 
 * 1 placa => 8 bojos extatamente
