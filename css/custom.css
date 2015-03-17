@@ -5,6 +5,7 @@ html {
 }
 body{
     padding-top:75px;
+    /*overflow: hidden !important;*/
 }
 
 .navbar{
@@ -61,3 +62,21 @@ label{
     color: #ff0000;
     font-size: 12px !important;
 }
+
+.modal{
+    padding-top: 12%;
+    overflow-y: hidden !important;
+    background-color: rgba(0,0,0,0.6);
+}
+.modal p{
+    font-size: medium;
+}
+
+.modal-title{
+    text-align: center;
+}
+
+.modal-footer{
+    text-align: center;
+}
+

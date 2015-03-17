@@ -14,7 +14,6 @@ $(document).ready(function () {
     var pedidoList = $('#pedidoList');
     var materialGastoList = $('#materialGastoList');
 
-
     var qtdeTecidoVermelho = $('#qtde_tecido_vermelho');
     var qtdeTecidoBranco = $('#qtde_tecido_branco');
     var qtdeTecidoPreto = $('#qtde_tecido_preto');
@@ -40,7 +39,7 @@ $(document).ready(function () {
         bojoVermelho: 0,
         bojoBranco: 0,
         bojoPreto: 0,
-        valido:true
+        valido:false
     };
 
     var materialGasto = {
@@ -64,11 +63,19 @@ $(document).ready(function () {
         pedido.bojoBranco = inputBojoBranco.val();
         pedido.bojoPreto = inputBojoPreto.val();
 
-        if(!verificaPedido(pedido))
+        verificaPedidoENome(pedido);
+        if(!pedido.valido)
             return;
 
-        calculaGasto(pedido);
+        verificaPedido(pedido)
+        if(!pedido.valido){
 
+            $('.modal').modal('show');
+
+            return;
+        }
+
+        calculaGasto(pedido);
         if(!pedido.valido)
             return;
 
@@ -81,21 +88,52 @@ $(document).ready(function () {
     /* Funções */
 
     /**
-     * Verifica o pedido    *** incompleto ***
+    * @Param Pedido
+    * Verifica se
+     */
+
+    /**
+     * @Param Pedido
+     * Verifica se tem pe menos um pedido de bojo
+     * para efetuar o pedido... se não tiver mostra linhas vermelhas para
+     * usuário saber que está inválido e não pode fazer o pedido
+     */
+    function verificaPedidoENome(pedido){
+
+        if(pedido.nomeCliente != "")
+            $('#nomeCliente').parent().removeClass('has-error');
+        else
+            $('#nomeCliente').parent().addClass('has-error');
+
+        if(pedido.numPedido != "")
+           $('#numPedido').parent().removeClass('has-error');
+        else
+            $('#numPedido').parent().addClass('has-error');
+
+        if(pedido.nomeCliente == "" || pedido.numPedido == "")
+            pedido.valido = false;
+        else
+            pedido.valido = true;
+
+    }
+
+    /**
      * @param pedido
+     * Se tiver pelo menos um tipo de bojo no pedido,
+     *  o Pedido poderáser realizado, caso contrário retornará um modal
+     *  para o usuário preenche-lo
      */
     function verificaPedido(pedido){
 
-        pedido.valido = true;
+        pedido.valido = false;
 
-        if(pedido.numPedido == ""){
-            $('#numPedido').val("informe").addClass('informe');
-            pedido.valido = false
-        }
-        if(pedido.nomeCliente == ""){
-            $('#nomeCliente').val("informe").addClass('informe');
-            pedido.valido = false
-        }
+        if(pedido.bojoVermelho != "")
+            pedido.valido = true;
+        if(pedido.bojoBranco != "")
+            pedido.valido = true;
+        if(pedido.bojoPreto != "")
+            pedido.valido = true;
+
     }
 
     /**
@@ -280,3 +318,5 @@ $(document).ready(function () {
     }
 
 });
+
+//$('#nomeCliente').parent().addClass('has-error');
