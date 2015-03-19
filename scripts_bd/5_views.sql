@@ -26,6 +26,7 @@ SELECT
 	c.email AS email_cliente,
 	c.telefone AS telefone_cliente,
 	to_char(c.data_nascimento, 'DD/MM/YYYY') AS data_nascimento_cliente,
+	extract(YEAR FROM age(c.data_nascimento))  AS idade_cliente,
 	p.usuario_criador,
 	to_char(p.data_criacao, 'DD/MM/YYYY HH24:MI:SS') AS data_criacao,
 	p.usuario_atualizador,
@@ -120,3 +121,18 @@ INNER JOIN tb_produto p
 	ON (f.id_produto = p.id_produto)
 INNER JOIN tb_materia_prima m
 	ON (m.id_materia_prima = f.id_materia_prima);
+
+
+-- Usando as views
+
+-- SELECT * FROM vs_cliente;
+
+-- SELECT * FROM vs_pedido;
+
+-- SELECT * FROM vs_produto;
+
+-- SELECT * FROM vs_materia_prima;
+
+-- SELECT * FROM vs_pedido_produto;
+
+-- SELECT * FROM vs_formula;
