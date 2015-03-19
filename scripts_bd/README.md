@@ -17,6 +17,7 @@ Após conectar ao banco **bojo_factory** executar os scripts:
 * 2_funcoes.sql
 * 3_tabelas_de_log.sql
 * 4_triggers.sql
+* 5_views.sql
 
 ##Como usar as funções DML
 
