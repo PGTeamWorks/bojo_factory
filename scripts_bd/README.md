@@ -35,6 +35,9 @@ Ao efetuar operacao 'D' (**DELETE**), apenas a chave primária e a operação s�
 
 > É importante lembrar que, a quantidade parâmetros deve ser respeitada sempre, ou seja, se uma função usa 5 parãmetros, ela sempre deve ser executada com 5 parâmetros.
 
+---
+####Nota: Todas as funções DML retornam o registro inserido, atualizado ou deletado.
+---
 ##Exemplos de uso com operação 'I' (INSERT)
 
 #### tb_cliente
