@@ -2,6 +2,15 @@
 ---
 #### PostgreSQL v9.4.1
 ---
+
+###Criando o usuário
+```sql
+CREATE USER bojofactory
+WITH
+SUPERUSER
+ENCRYPTED PASSWORD 'bojofactory'
+```
+
 ###Criando o banco
 ```sql
 CREATE DATABASE bojo_factory
