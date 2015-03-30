@@ -52,6 +52,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Dominio\Dominio.csproj">
+      <Project>{1D781718-584C-4C2F-A6E3-D05406C51C0B}</Project>
+      <Name>Dominio</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Infraestrutura\Infraestrutura.csproj">
       <Project>{3a2c5e1a-de6c-435b-86b6-502d291fa514}</Project>
       <Name>Infraestrutura</Name>

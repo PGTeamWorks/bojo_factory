@@ -1,0 +1,5 @@
+C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\Aplicacao\bin\Debug\Aplicacao.dll
+C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\Aplicacao\bin\Debug\Aplicacao.pdb
+C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\Aplicacao\obj\Debug\Aplicacao.csprojResolveAssemblyReference.cache
+C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\Aplicacao\obj\Debug\Aplicacao.dll
+C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\Aplicacao\obj\Debug\Aplicacao.pdb

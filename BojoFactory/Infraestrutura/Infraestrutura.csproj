@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseData.cs" />
     <Compile Include="Contexto\ContextoDb.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -15,3 +15,5 @@ C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\ConsoleTeste\bin\De
 C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\ConsoleTeste\obj\Debug\ConsoleTeste.csprojResolveAssemblyReference.cache
 C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\ConsoleTeste\obj\Debug\ConsoleTeste.exe
 C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\ConsoleTeste\obj\Debug\ConsoleTeste.pdb
+C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\ConsoleTeste\bin\Debug\Dominio.dll
+C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\ConsoleTeste\bin\Debug\Dominio.pdb
