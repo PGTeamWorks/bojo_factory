@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using BojoFactory.ViewModel;
+using Dominio.Entidades;
 using Newtonsoft.Json.Linq;
 using Repositorio;
 
@@ -25,8 +27,16 @@ namespace BojoFactory.Controllers
             return View();
         }
 
-        public JsonResult Inserir(ClienteViewModel cliente)
+        public ActionResult Inserir()
         {
+            return PartialView("_Inserir");
+        }
+
+        [HttpPost]
+        public ActionResult Inserir(ClienteViewModel cliente)
+        {
+           var obj = Mapper.Map<ClienteViewModel, Cliente>(cliente);
+            _repositorio.ManipulaObjeto(obj);
             return null;
         }
 

@@ -36,13 +36,15 @@
         <div class="container">
             @RenderBody()
             
+
             <footer class="footer">
                 <p><i class="glyphicon glyphicon-barcode"></i> P&G <span>&copy;</span> 2015 - <i class="glyphicon glyphicon-cloud"></i> <a href="https://github.com/PGTeamWorks/bojo_factory">GitHub Repository</a> - Paulo Vinicius & Guilherme Felipe</p>
             </footer>
         </div>
-
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")
-        @RenderSection("scripts", required: false)
-    </body>
+        <div id="modal" class="modal fade" aria-labelledby="gridSystemModalLabel" role="dialog" aria-hidden="false">
+        </div>
+            @Scripts.Render("~/bundles/jquery")
+            @Scripts.Render("~/bundles/bootstrap")
+            @RenderSection("scripts", required: false)
+</body>
 </html>

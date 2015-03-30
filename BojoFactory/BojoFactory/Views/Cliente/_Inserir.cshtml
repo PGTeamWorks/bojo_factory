@@ -1,0 +1,58 @@
+﻿@*<script>
+        $(document).ready(function () {
+
+        });
+    </script>*@
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="titulo-modal">Novo Cliente</h4>
+        </div>
+        <div class="modal-body">
+            <div class="">
+                <form id="form-inserir-cliente" class="form-horizontal">
+                    <fieldset>
+                        <div class="form-group">
+                            <label class="col-md-1">Nome</label>
+                            <div class="col-md-5">
+                                <input name="Nome" type="text" autocomplete="off" class=" form-control" maxlength="40">
+                            </div>
+                            <label class="col-md-1">Cpf</label>
+                            <div class="col-md-3">
+                                <input name="Cpf" type="text" autocomplete="off" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2">Nascimento</label>
+                            <div class="col-md-3">
+                                <input name="DataNascimento" type="text" class="form-control" autocomplete="off" />
+                            </div>
+                            <label class="col-md-1">Telefone</label>
+                            <div class="col-md-3">
+                                <input name="Telefone" type="tel" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-1">Email</label>
+                            <div class="col-md-5">
+                                <input name="Email" class="form-control" type="email" autocomplete="off" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-10 col-lg-offset-2 text-right">
+                                <button type="reset" class="btn btn-default"><i class="glyphicon glyphicon-remove"></i> Limpar</button>
+                                <button type="button" class="btn btn-success" id="btn-gravar-cliente">Salvar</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+        </div>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+<script src="~/Scripts/Cliente/cliente.js"></script>
