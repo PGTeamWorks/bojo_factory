@@ -65,10 +65,14 @@ label{
 
 .modal{
     padding-top: 12%;
-    overflow-y: hidden !important;
+    /*overflow-y: hidden !important;*/
     background-color: rgba(0,0,0,0.6);
 }
-.modal p{
+
+.modal-medium {
+    width: 700px;
+}
+/*.modal p{
     font-size: medium;
 }
 
@@ -78,5 +82,5 @@ label{
 
 .modal-footer{
     text-align: center;
-}
+}*/
 

@@ -1,6 +1,9 @@
 $(document).ready(function () {
 
     $('.numero').mask("99999999");
+    $('.cpf').mask("999.999.999-99");
+    $('.fone').mask("(99) 9 9999-9999");
+    $('.dt-nasc').mask("99/99/9999");
 
     var placa = 8;
 

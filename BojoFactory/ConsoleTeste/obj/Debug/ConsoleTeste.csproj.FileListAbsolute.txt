@@ -1,9 +1,11 @@
 C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\ConsoleTeste\bin\Debug\ConsoleTeste.exe.config
 C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\ConsoleTeste\bin\Debug\ConsoleTeste.exe
 C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\ConsoleTeste\bin\Debug\ConsoleTeste.pdb
+C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\ConsoleTeste\bin\Debug\Dominio.dll
 C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\ConsoleTeste\bin\Debug\Infraestrutura.dll
 C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\ConsoleTeste\bin\Debug\Npgsql.dll
 C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\ConsoleTeste\bin\Debug\Mono.Security.dll
+C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\ConsoleTeste\bin\Debug\Dominio.pdb
 C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\ConsoleTeste\bin\Debug\Infraestrutura.pdb
 C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\ConsoleTeste\bin\Debug\Npgsql.xml
 C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\ConsoleTeste\bin\Debug\de\Npgsql.resources.dll
@@ -15,5 +17,3 @@ C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\ConsoleTeste\bin\De
 C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\ConsoleTeste\obj\Debug\ConsoleTeste.csprojResolveAssemblyReference.cache
 C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\ConsoleTeste\obj\Debug\ConsoleTeste.exe
 C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\ConsoleTeste\obj\Debug\ConsoleTeste.pdb
-C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\ConsoleTeste\bin\Debug\Dominio.dll
-C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\ConsoleTeste\bin\Debug\Dominio.pdb

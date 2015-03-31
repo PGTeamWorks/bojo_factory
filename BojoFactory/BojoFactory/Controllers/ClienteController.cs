@@ -27,9 +27,9 @@ namespace BojoFactory.Controllers
             return View();
         }
 
-        public ActionResult Inserir()
+        public ActionResult Inserir()   
         {
-            return PartialView("_Inserir");
+            return PartialView("Modal/_Inserir");
         }
 
         [HttpPost]
