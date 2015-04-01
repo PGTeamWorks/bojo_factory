@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
     listarClientes();
     exibirModalInserirCliente();
-    
+    inserirCliente();
 });
 
 function exibirModalInserirCliente() {
@@ -24,7 +24,7 @@ function listarClientes() {
             $.each(data.clientes, function (i, item) {
                 tbClientes.append(
                     "<tr>" +
-                    '   <td>               </td>'+
+                    '   <td>               </td>' +
                     "   <td>" + item.Id + "</td>" +
                     "   <td>" + item.Nome + "</td>" +
                     "   <td>" + item.Email + "</td>" +
@@ -36,15 +36,12 @@ function listarClientes() {
     });
 }
 
-//function inserirCliente() {
-//    $("#btn-salvar-cliente").click(function () {
-//        var dados = $("#form-inserir-cliente").serialize();
-//        $.post("/Cliente/Inserir/", dados, function () {
+function inserirCliente() {
+    var dados = $("#form-inserir-cliente").serialize();
+    $.post("/Cliente/Inserir/", dados, function () {
 
-//        });
-
-//    });
-//}
+    });
+}
 
 //$.ajax({
 //    url: "/Cliente/Listar/",

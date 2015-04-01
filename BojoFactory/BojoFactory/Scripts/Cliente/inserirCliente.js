@@ -1,8 +1,8 @@
 ﻿$(document).ready(function() {
-    inserirCliente();
+    olk();
 });
 
-function inserirCliente() {
+function olk() {
     $("#btn-salvar-cliente").click(function () {
         var dados = $("#form-inserir-cliente").serialize();
         $.post("/Cliente/Inserir/", dados, function () {
