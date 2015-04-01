@@ -9,6 +9,7 @@ RETURNS tb_cliente AS
 $$
 DECLARE
 	registro tb_cliente%ROWTYPE;
+	msg_exception text;
 BEGIN
 	SELECT * INTO registro
 	FROM tb_cliente
@@ -69,7 +70,16 @@ BEGIN
 		RAISE EXCEPTION 'Operação inválida: %', operacao;
 	END IF;
 
-		RETURN registro;
+	EXCEPTION WHEN unique_violation THEN
+	    GET STACKED DIAGNOSTICS msg_exception := CONSTRAINT_NAME;
+
+	    IF msg_exception = 'uq_tb_cliente_cpf' THEN
+	        RAISE unique_violation USING MESSAGE = 'O cpf '||p_cpf||' já existe no cadastro';
+	    ELSIF msg_exception = 'uq_tb_cliente_email' THEN
+	        RAISE unique_violation USING MESSAGE = 'O e-mail '||p_email||' já existe no cadastro';
+	    END IF;
+
+	RETURN registro;
 END;
 $$ LANGUAGE plpgsql;
 
