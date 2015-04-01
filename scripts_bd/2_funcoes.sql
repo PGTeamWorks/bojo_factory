@@ -75,9 +75,7 @@ BEGIN
 
 	    IF msg_exception = 'uq_tb_cliente_cpf' THEN
 	        RAISE EXCEPTION 'O cpf % já existe no cadastro', p_cpf;
-	    END IF;
-
-	    IF msg_exception = 'uq_tb_cliente_email' THEN
+	    ELSIF msg_exception = 'uq_tb_cliente_email' THEN
 	        RAISE EXCEPTION 'O e-mail % já existe no cadastro', p_email;
 	    END IF;
 
