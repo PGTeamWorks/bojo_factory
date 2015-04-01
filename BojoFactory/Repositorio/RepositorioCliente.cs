@@ -59,7 +59,7 @@ namespace Repositorio
 
                 //aqui to passando o método que atende o delegate pro FillList la do meu extention
                 //uma pergunta..  a parte de generics vc manja? List<T>
-                 //e essas coisas?
+                //e essas coisas?
                 // Sim... tipo um T pode ser qualquer coisa 
                 // sim object sim... só q em vez de retornar o object retorna o tipo T
                 //blz... passou la pro extention
@@ -108,13 +108,16 @@ namespace Repositorio
                 cliente.Cpf = GetSafeField<string>(reader["cpf"], string.Empty);
                 cliente.Email = GetSafeField<string>(reader["email"], string.Empty);
                 cliente.Telefone = GetSafeField<string>(reader["telefone"], string.Empty);
-                cliente.DataNascimento = Convert.ToDateTime(GetSafeField<string>(reader["data_nascimento"], "01/01/2000"), CultureInfo.CurrentCulture.DateTimeFormat);
-              
+                cliente.DataNascimento =
+                    Convert.ToDateTime(
+                        GetSafeField<string>(reader["data_nascimento"].ToString(), DateTime.MinValue.ToString()),
+                        CultureInfo.CurrentCulture.DateTimeFormat);
 
                 clientes.Add(cliente);
             }
 
             return clientes;
         }
+
     }
 }

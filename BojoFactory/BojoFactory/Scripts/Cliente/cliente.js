@@ -1,8 +1,9 @@
 ﻿$(document).ready(function () {
     listarClientes();
     exibirModalInserirCliente();
-    
 });
+
+var clienteValido = true;
 
 function exibirModalInserirCliente() {
     $("#btn-modal-inserir").click(function () {
@@ -24,7 +25,7 @@ function listarClientes() {
             $.each(data.clientes, function (i, item) {
                 tbClientes.append(
                     "<tr>" +
-                    '   <td>               </td>'+
+                    '   <td>               </td>' +
                     "   <td>" + item.Id + "</td>" +
                     "   <td>" + item.Nome + "</td>" +
                     "   <td>" + item.Email + "</td>" +
@@ -36,15 +37,67 @@ function listarClientes() {
     });
 }
 
-//function inserirCliente() {
-//    $("#btn-salvar-cliente").click(function () {
-//        var dados = $("#form-inserir-cliente").serialize();
-//        $.post("/Cliente/Inserir/", dados, function () {
+function inserirCliente() {
 
-//        });
 
-//    });
-//}
+    if (!validaCliente())
+        return;
+
+    var dados = $("#form-inserir-cliente").serialize();
+    $.post("/Cliente/Inserir/", dados, function () {
+
+    }).done(function() {
+            console.log("Deu certo");
+        }
+    ).fail(function (data) {
+        $('#diverror').html(data.responseText);
+        console.log("Deu merda");
+    });
+}
+
+function validaCliente() {
+
+    if ($('#Nome').val() != "") {
+        $('#Nome').parent().removeClass('has-error');
+    } else {
+        $('#Nome').parent().addClass('has-error');
+        clienteValido = false;
+    }
+
+    if ($('#Cpf').val() != "") {
+        $('#Cpf').parent().removeClass('has-error');
+    } else {
+        $('#Cpf').parent().addClass('has-error');
+        clienteValido = false;
+    }
+
+    if ($('#DataNascimento').val() != "") {
+        $('#DataNascimento').parent().removeClass('has-error');
+    } else {
+        $('#DataNascimento').parent().addClass('has-error');
+        clienteValido = false;
+    }
+
+    if ($('#Telefone').val() != "") {
+        $('#Telefone').parent().removeClass('has-error');
+    } else {
+        $('#Telefone').parent().addClass('has-error');
+        clienteValido = false;
+    }
+
+    if ($('#Email').val() != "") {
+        $('#Email').parent().removeClass('has-error');
+    } else {
+        $('#Email').parent().addClass('has-error');
+        clienteValido = false;
+    }
+
+    if (($('#Nome').val() != "") && ($('#Cpf').val() != "") && ($('#DataNascimento').val() != "") && ($('#Telefone').val() != "") && ($('#Email').val() != ""))
+        return true;
+    else
+        return false;
+}
+
 
 //$.ajax({
 //    url: "/Cliente/Listar/",
