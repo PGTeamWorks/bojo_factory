@@ -2,6 +2,7 @@
     listarClientes();
     exibirModalInserirCliente();
     inserirCliente();
+
 });
 
 var clienteValido = true;
