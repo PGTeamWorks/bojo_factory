@@ -9,5 +9,6 @@ C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\Infraestrutura\bin\
 C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\Infraestrutura\bin\Debug\fr\Npgsql.resources.dll
 C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\Infraestrutura\bin\Debug\ja\Npgsql.resources.dll
 C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\Infraestrutura\bin\Debug\zh-CN\Npgsql.resources.dll
+C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\Infraestrutura\obj\Debug\Infraestrutura.csprojResolveAssemblyReference.cache
 C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\Infraestrutura\obj\Debug\Infraestrutura.dll
 C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\Infraestrutura\obj\Debug\Infraestrutura.pdb
