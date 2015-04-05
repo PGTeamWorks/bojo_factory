@@ -8,7 +8,7 @@ namespace Dominio.Entidades
 {
     public class Produto
     {
-        public Int32 Id { get; set; }
+        public int Id { get; set; }
         public string Descricao { get; set; }
         public decimal Tamanho { get; set; }
         public string Cor { get; set; }

@@ -26,7 +26,7 @@ namespace Repositorio
                 return dataReader.FillList<Cliente>(ReaderParaObejto).FirstOrDefault();
 
             }
-            catch (Exception exception)
+            catch (NpgsqlException exception)
             {
 
                 throw new Exception(exception.Message);
@@ -41,14 +41,38 @@ namespace Repositorio
 
         public Cliente ObterPorId(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+               var query = string.Format("SELET nome," +
+                                          "      cpf, " +
+                                          "      email, " +
+                                          "      data_nascimento" +
+                                          "WHERE id = '{0}'",id);
+
+                var dataReader = ExecutarReader(query);
+
+                return dataReader.FillList<Cliente>(ReaderParaObejto).FirstOrDefault();
+            }
+            catch (NpgsqlException exception)
+            {
+
+                throw new Exception(exception.Message);
+            }
+            finally
+            {
+                base.FecharConexao();
+            }
         }
 
         public IEnumerable<Cliente> Obter()
         {
             try
             {
-                var query = string.Format("SELECT * FROM vs_cliente");
+                var query = string.Format("SELECT nome," +
+                                          "       cpf," +
+                                          "       email," +
+                                          "       data_nascimento " +
+                                          "FROM vs_cliente");
 
                 var dataReader = ExecutarReader(query);
 
@@ -67,7 +91,7 @@ namespace Repositorio
 
 
             }
-            catch (Exception exception)
+            catch (NpgsqlException exception)
             {
 
                 throw new Exception(exception.Message);

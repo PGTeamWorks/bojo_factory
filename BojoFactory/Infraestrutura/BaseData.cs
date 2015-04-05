@@ -180,6 +180,7 @@ namespace Infraestrutura
             }
             catch { }
         }
+        
     }
 
     public static class ExtensionMethods
@@ -201,4 +202,5 @@ namespace Infraestrutura
             return BaseData.MontaList<T>(fill, reader);
         }
     }
+    
 }
