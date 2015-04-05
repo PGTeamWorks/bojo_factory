@@ -40,6 +40,8 @@ BEGIN
 				current_timestamp
 				) 
 			RETURNING * INTO registro;
+
+			RETURN registro;
 		ELSE
 			RAISE EXCEPTION 'Para operações de INSERT o id_cliente deve ser NULL';
 		END IF;
@@ -55,6 +57,8 @@ BEGIN
 			 	data_atualizacao = current_timestamp
 		 	WHERE id_cliente = p_id_cliente 
 			RETURNING * INTO registro;
+
+			RETURN registro;
 		ELSE 
 			RAISE EXCEPTION 'Registro nº % não foi encontrado. Impossível atualizar.', p_id_cliente;
 		END IF;
@@ -63,6 +67,8 @@ BEGIN
 		 	DELETE FROM tb_cliente
 		 	WHERE id_cliente = p_id_cliente 
 		 	RETURNING * INTO registro;
+
+		 	RETURN registro;
 		 ELSE
 		 	RAISE EXCEPTION 'Registro nº % não foi encontrado. Impossível apagar.', p_id_cliente;
 		 END IF;
@@ -79,7 +85,6 @@ BEGIN
 	        RAISE unique_violation USING MESSAGE = 'O e-mail '||p_email||' já existe no cadastro';
 	    END IF;
 
-	RETURN registro;
 END;
 $$ LANGUAGE plpgsql;
 
