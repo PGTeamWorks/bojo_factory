@@ -64,7 +64,7 @@ label{
 }
 
 .modal{
-    padding-top: 12%;
+    padding-top: 10%;
     /*overflow-y: hidden !important;*/
     background-color: rgba(0,0,0,0.6);
 }

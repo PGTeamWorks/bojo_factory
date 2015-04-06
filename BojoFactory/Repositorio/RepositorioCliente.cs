@@ -12,36 +12,86 @@ namespace Repositorio
 {
     public class RepositorioCliente : BaseData, IRepositorioCliente
     {
-        public Cliente ManipulaObjeto(Cliente cliente)
+        public Cliente InsereAltera(Cliente cliente)
         {
             var paramretos = PreparaParamentros(cliente);
+
+            var operacao = cliente.Id == 0 ? "I" : "U";
 
             try
             {
                 var query =
-                    string.Format("SELECT * FROM fn_cliente (NULL,:nome,:cpf,:email,:telefone,:data_nascimento,'I')");
+                    string.Format("SELECT *                             " +
+                                  "FROM fn_cliente (:id_cliente,        " +
+                                  "                 :nome,              " +
+                                  "                 :cpf,               " +
+                                  "                 :email,             " +
+                                  "                 :telefone,          " +
+                                  "                 :data_nascimento,   " +
+                                  "                 '{0}')"             ,operacao);
 
                 var dataReader = ExecutarReader(query, paramretos);
 
                 return dataReader.FillList<Cliente>(ReaderParaObejto).FirstOrDefault();
 
             }
-            catch (Exception exception)
+            catch (NpgsqlException exception)
             {
 
-                throw new Exception(exception.Message);
+                throw new Exception(exception.BaseMessage);
             }
             finally
             {
                 base.FecharConexao();
             }
+        }
 
+        public Cliente Deleta(int id)
+        {
+            try
+            {
+                var query = string.Format(" SELECT fn_cliente ('{0}', " +
+                                          "                     NULL, " +
+                                          "                     NULL, " +
+                                          "                     NULL, " +
+                                          "                     NULL, " +
+                                          "                     NULL, " +
+                                          "                     'D')",id);
 
+                var dataReader = ExecutarReader(query);
+
+                return dataReader.FillList<Cliente>(ReaderParaObejto).FirstOrDefault();
+
+            }
+            catch (NpgsqlException exception)
+            {
+                
+                throw new Exception(exception.BaseMessage);
+            }
         }
 
         public Cliente ObterPorId(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var query = string.Format("SELECT id_cliente,       " +
+                                          "       nome,             " +
+                                          "       cpf,              " +
+                                          "       email,            " +
+                                          "       telefone,         " +
+                                          "       data_nascimento   " +
+                                          "FROM vs_cliente          " +
+                                          "WHERE id_cliente = '{0}' ",id);
+
+                var dataReader = ExecutarReader(query);
+
+                return dataReader.FillList<Cliente>(ReaderParaObejto).FirstOrDefault();
+            }
+            catch (NpgsqlException exception)
+            {
+                
+                throw new Exception(exception.BaseMessage);
+            }
         }
 
         public IEnumerable<Cliente> Obter()
@@ -52,25 +102,15 @@ namespace Repositorio
 
                 var dataReader = ExecutarReader(query);
 
-                // a parte de extention vc entendeu? pra dar um datareader.Fill?
-                //não
-                //tipo, vc pode fazer um extention pra qualquer tipo de objeto, ae vc da o objeto.OMetodoQueVcCriou
-                //as não precisa chamar OMetodoQueVcCriou(seuObjeto);
-
-                //aqui to passando o método que atende o delegate pro FillList la do meu extention
-                //uma pergunta..  a parte de generics vc manja? List<T>
-                //e essas coisas?
-                // Sim... tipo um T pode ser qualquer coisa 
-                // sim object sim... só q em vez de retornar o object retorna o tipo T
-                //blz... passou la pro extention
+               
                 return dataReader.FillList<Cliente>(ReaderParaObejto);
 
 
             }
-            catch (Exception exception)
+            catch (NpgsqlException exception)
             {
 
-                throw new Exception(exception.Message);
+                throw new Exception(exception.BaseMessage);
             }
             finally
             {
@@ -81,6 +121,10 @@ namespace Repositorio
         public List<NpgsqlParameter> PreparaParamentros(Cliente cliente)
         {
             var paramentros = new List<NpgsqlParameter>();
+
+            paramentros.Add(cliente.Id != 0
+                ? new NpgsqlParameter("id_cliente", cliente.Id)
+                : new NpgsqlParameter("id_cliente", null));
 
             paramentros.Add(new NpgsqlParameter("nome", cliente.Nome));
             paramentros.Add(new NpgsqlParameter("cpf", cliente.Cpf));

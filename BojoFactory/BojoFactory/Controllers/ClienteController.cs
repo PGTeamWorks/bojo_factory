@@ -13,12 +13,6 @@ namespace BojoFactory.Controllers
 {
     public class ClienteController : BaseController
     {
-        //é, nesse caso nao da pra por num using :) mas é mais bonito assiim, na vdd seria se vc injetasse no contrutor :P
-        // eu tentei usar um construtor aqui no ClienteController passando um RepositorioCliente e não deu certo :/
-        //tem q colocar algum framewrok de injeção de dependencia.. no ml tava usando o ninject
-
-        // eu vi comecei a usar aqui mas como não me adiantaria de muita coisa, deixei assim
-        // entendo :) é nao adianta fazer um canhão pra matar uma formiga rs
         readonly RepositorioCliente _repositorio = new RepositorioCliente();
 
         // GET: Cliente
@@ -30,27 +24,64 @@ namespace BojoFactory.Controllers
         public ActionResult Inserir()   
         {
             return PartialView("Modal/_Inserir");
-        }
+        }   
 
         [HttpPost]
         public ActionResult Inserir(ClienteViewModel cliente)
         {
            var obj = Mapper.Map<ClienteViewModel, Cliente>(cliente);
-            _repositorio.ManipulaObjeto(obj);
-            return null;
+            try
+            {
+                var objInserido = _repositorio.InsereAltera(obj);
+                return Json(new { objInserido }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception exception)
+            {
+               return Json(new {erro = true, exception.Message}, JsonRequestBehavior.AllowGet);
+            }
+           
+            
         }
 
         [HttpGet]
         public ActionResult Editar(int id)
         {
             var cliente = _repositorio.ObterPorId(id);
-            return Json(new {cliente}, JsonRequestBehavior.AllowGet);
+            return PartialView("Modal/_Editar",cliente);
         }
 
         public ActionResult Listar()
         {
             var clientes = _repositorio.Obter();
             return Json(new {clientes}, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Detalhar(int id)
+        {
+            var cliente = _repositorio.ObterPorId(id);
+            return PartialView("Modal/_Detalhes", cliente);
+        }
+
+        public ActionResult Excluir(int id)
+        {
+            var cliente = _repositorio.ObterPorId(id);
+            return PartialView("Modal/_Excluir",cliente);
+        }
+
+        [HttpPost]
+        public ActionResult ExcluirPorId(int id)
+        {
+            try
+            {
+                var cliente = _repositorio.Deleta(id);
+                return Json(new {cliente}, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception exception)
+            {
+                
+                throw new Exception(exception.Message);
+            }
+           
         }
     }
 }

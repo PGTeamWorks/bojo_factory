@@ -4,7 +4,7 @@ namespace Dominio.Interfaces
 {
     public interface IRepositorioBase<T> where T: class 
     {
-       T ManipulaObjeto(T obj);
+       T InsereAltera(T obj);
 
         T ObterPorId(int id);
 

@@ -1,35 +1,38 @@
+﻿@model Dominio.Entidades.Cliente
+
 <div class="modal-dialog modal-medium">
     <div class="modal-content">
         <div class="modal-header">
-            <h4 class="modal-title">Novo Cliente</h4>
+            <h4 class="modal-title">Editar Cliente</h4>
         </div>
         <div class="modal-body">
             <div class="container-fluid">
                 <form id="form-inserir-cliente" class="form-horizontal">
                     <div class="form-group">
+                        <input name="Id" class="hidden" value="@Model.Id"/>
                         <label for="Nome" class="col-md-1 control-label">Nome</label>
                         <div class="col-md-5">
-                            <input type="text" name="Nome" class="form-control" id="Nome" placeholder="Nome">
+                            <input type="text" name="Nome" class="form-control" id="Nome" placeholder="Nome" value="@Model.Nome">
                         </div>
                         <label for="Cpf" class="col-md-1 control-label">Cpf</label>
                         <div class="col-md-5">
-                            <input type="text" name="Cpf" class="form-control cpf" id="Cpf" placeholder="Cpf" />
+                            <input type="text" name="Cpf" class="form-control cpf" id="Cpf" placeholder="Cpf" value="@Model.Cpf" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="DataNascimento" class="col-md-2 control-label">Nascimento</label>
                         <div class="col-md-4">
-                            <input type="text" name="DataNascimento" class="form-control dt-nasc" id="DataNascimento" placeholder="Data de nascimento">
+                            <input type="text" name="DataNascimento" class="form-control dt-nasc" id="DataNascimento" placeholder="Data de nascimento" value="@Model.DataNascimento">
                         </div>
                         <label for="Telefone" class="col-md-2 control-label">Telefone</label>
                         <div class="col-md-4">
-                            <input type="text" name="Telefone" class="form-control fone" id="Telefone" placeholder="Telefone" />
+                            <input type="text" name="Telefone" class="form-control fone" id="Telefone" placeholder="Telefone" value="@Model.Telefone"/>
                         </div>
                     </div>
                     <div>
                         <label for="Email" class="col-md-2">Email</label>
                         <div class="col-md-10">
-                            <input type="text" class="form-control" name="Email" id="Email" placeholder="Email" />
+                            <input type="text" class="form-control" name="Email" id="Email" placeholder="Email" value="@Model.Email"/>
                         </div>
                     </div>
                 </form>
@@ -43,3 +46,4 @@
     </div>
     <div id="alerta-cliente"></div>
 </div>
+
