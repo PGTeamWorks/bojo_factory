@@ -42,10 +42,13 @@
     <Compile Include="Entidades\Formula.cs" />
     <Compile Include="Entidades\MateriaPrima.cs" />
     <Compile Include="Entidades\Pedido.cs" />
+    <Compile Include="Entidades\PedidoProduto.cs" />
     <Compile Include="Entidades\Produto.cs" />
     <Compile Include="Interfaces\IRepositorioCliente.cs" />
     <Compile Include="Interfaces\IRepositorioBase.cs" />
+    <Compile Include="Interfaces\IRepositorioMateriaPrima.cs" />
     <Compile Include="Interfaces\IRepositorioPedido.cs" />
+    <Compile Include="Interfaces\IRepositorioPedidoProduto.cs" />
     <Compile Include="Interfaces\IRepositorioProduto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

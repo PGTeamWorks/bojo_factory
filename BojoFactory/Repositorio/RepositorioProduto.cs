@@ -2,83 +2,55 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 using Dominio.Entidades;
 using Dominio.Interfaces;
 using Infraestrutura;
-using NHibernate.Hql;
 using Npgsql;
 
 namespace Repositorio
 {
-    public class RepositorioProduto : BaseData, IRepositorioProduto 
+    public class RepositorioProduto : BaseData, IRepositorioProduto
     {
-        public Produto ManipulaObjeto(Produto obj)
+        public Produto InsereAltera(Produto produto)
         {
-            var parametros = PreparParametros(obj);
+            var operacao = produto.Id == 0 ? "I" : "U";
 
             try
             {
-                var tipoOperacao = "";
+                var parametros = PreparaParamentros(produto);
 
-                if (obj.Id == 0)
-                    tipoOperacao = "I";
-                if (obj.Id != 0)
-                    tipoOperacao = "U";
+                var query = string.Format("SELECT fn_produto( :id_produto, " +
+                                          "                   :descricao, " +
+                                          "                   :tamanho, " +
+                                          "                   :cor, " +
+                                          "                   :preco, " +
+                                          "                   :saldo_estoque, " +
+                                          "                   :'{0}')", operacao);
 
-                    var query =
-                    string.Format("SELECT * " +
-                                  "FROM fn_produto " +
-                                  "(NULL, " +
-                                  " :descricao, " +
-                                  " :tamanho, " +
-                                  " :cor, " +
-                                  " :preco, " +
-                                  " :saldo_estoque, " +
-                                  "'{0}')",tipoOperacao);
-                
-
-              
-                
-
-                var dataReader = ExecutarReader(query, parametros);
-
-                return dataReader.FillList<Produto>(ReaderParaObjeto).FirstOrDefault();
+                var datareader = ExecutarReader(query, parametros);
+                return datareader.FillList<Produto>(ReaderParaObejto).FirstOrDefault();
             }
             catch (NpgsqlException exception)
             {
-                throw new Exception(exception.Message);
-            }
 
+                throw new Exception(exception.BaseMessage);
+            }
         }
 
         public Produto ObterPorId(int id)
         {
             try
             {
-                
-                var query = string.Format(" SELECT id_produto,   " +
-                                          "        descricao,    " +
-                                          "        cor,          " +
-                                          "        tamanho,      " +
-                                          "        saldo_estoque " +
-                                          " FROM vs_produto      " +
-                                          " WHERE {0}",          id);
+                var query = string.Format("SELECT * " +
+                                          "FROM vs_produto " +
+                                          "WHERE id_produto = '{0}'", id);
 
                 var dataReader = ExecutarReader(query);
-
-                return dataReader.FillList<Produto>(ReaderParaObjeto).FirstOrDefault();
+                return dataReader.FillList<Produto>(ReaderParaObejto).FirstOrDefault();
             }
             catch (NpgsqlException exception)
             {
-
-                throw new Exception(exception.Message);
-            }
-            finally
-            {
-                FecharConexao();
+                throw new Exception(exception.BaseMessage);
             }
         }
 
@@ -86,61 +58,54 @@ namespace Repositorio
         {
             try
             {
-                var query = string.Format(" SELECT id_produto,   " +
-                                          "        descricao,    " +
-                                          "        cor,          " +
-                                          "        tamanho,      " +
-                                          "        saldo_estoque " +
-                                          " FROM vs_produto      ");
+                var query = string.Format("SELECT * " +
+                                      "FROM vs_produto");
 
                 var dataReader = ExecutarReader(query);
-
-                return dataReader.FillList<Produto>(ReaderParaObjeto);
+                return dataReader.FillList<Produto>(ReaderParaObejto);
             }
             catch (NpgsqlException exception)
             {
 
-                throw new Exception(exception.Message);
-            }
-            finally
-            {
-                FecharConexao();
+                throw new Exception(exception.BaseMessage);
             }
         }
 
-        public List<NpgsqlParameter> PreparParametros(Produto produto)
+        public List<NpgsqlParameter> PreparaParamentros(Produto produto)
         {
-            var parametros = new List<NpgsqlParameter>();
+            var paramentros = new List<NpgsqlParameter>();
 
-            parametros.Add(new NpgsqlParameter("descricao", produto.Descricao));
-            parametros.Add(new NpgsqlParameter("cor", produto.Cor));
-            parametros.Add(new NpgsqlParameter("tamanho", produto.Tamanho));
-            parametros.Add(new NpgsqlParameter("preco", produto.Preco));
-            parametros.Add(new NpgsqlParameter("saldo_estoque", produto.SaldoEstoque));
+            paramentros.Add(produto.Id != 0
+                ? new NpgsqlParameter("id_produto", produto.Id)
+                : new NpgsqlParameter("id_produto", null));
 
-            return parametros;
+            paramentros.Add(new NpgsqlParameter("descricao", produto.Descricao));
+            paramentros.Add(new NpgsqlParameter("tamanho", produto.Tamanho));
+            paramentros.Add(new NpgsqlParameter("cor",produto.Cor));
+            paramentros.Add(new NpgsqlParameter("preco", produto.Preco));
+            paramentros.Add(new NpgsqlParameter("saldo_estoque", produto.SaldoEstoque));
+
+            return paramentros;
         }
 
-        public List<Produto> ReaderParaObjeto(IDataReader reader)
+        public List<Produto> ReaderParaObejto(IDataReader reader)
         {
-            var listaProdudos = new List<Produto>();
+            var produtos = new List<Produto>();
 
             while (reader.Read())
             {
                 var produto = new Produto();
-
                 produto.Id = GetSafeField<int>(reader["id_produto"], 0);
                 produto.Descricao = GetSafeField<string>(reader["descricao"], string.Empty);
-                produto.Cor = GetSafeField<string>(reader["cor"], string.Empty);
                 produto.Tamanho = GetSafeField<decimal>(reader["tamanho"], 0);
+                produto.Cor = GetSafeField<string>(reader["cor"], 0);
+                produto.Preco = GetSafeField<decimal>(reader["preco"], 0);
                 produto.SaldoEstoque = GetSafeField<decimal>(reader["saldo_estoque"], 0);
 
-                listaProdudos.Add(produto);
+                produtos.Add(produto);
             }
 
-            return listaProdudos;
-
-
-        } 
+            return produtos;
+        }
     }
 }

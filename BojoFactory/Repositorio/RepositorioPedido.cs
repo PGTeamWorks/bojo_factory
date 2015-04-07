@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using Dominio.Entidades;
 using Dominio.Interfaces;
 using Infraestrutura;
@@ -15,37 +12,27 @@ namespace Repositorio
 {
     public class RepositorioPedido : BaseData, IRepositorioPedido
     {
-
-
-        public Pedido ManipulaObjeto(Pedido obj)
+        public Pedido InsereAltera(Pedido pedido)
         {
-            var parametros = PreparParametros(obj);
+            var operacao = pedido.Id == 0 ? "I" : "U";
 
             try
             {
-                var tipoOperacao = "";
+                var parametros = PreparaParamentros(pedido);
 
-                if (obj.Id == 0)
-                    tipoOperacao = "I";
-                if (obj.Id != 0)
-                    tipoOperacao = "U";
+                var query = string.Format("SELECT fn_pedido( :id_pedido," +
+                                          "                  :data_pedido," +
+                                          "                  :valor_total," +
+                                          "                  :id_cliente," +
+                                          "                  :'{0}')", operacao);
 
-                var query =
-                    string.Format("SELECT * " +
-                                  "FROM fn_pedido " +
-                                  "(NULL, " +
-                                  " :data_pedido, " +
-                                  " :valor_total, " +
-                                  " :id_cliente " +
-                                  " '{0}')", tipoOperacao);
-
-                var dataReader = ExecutarReader(query, parametros);
-
-                return dataReader.FillList<Pedido>(ReaderParaObjeto).FirstOrDefault();
+                var datareader = ExecutarReader(query, parametros);
+                return datareader.FillList<Pedido>(ReaderParaObejto).FirstOrDefault();
             }
             catch (NpgsqlException exception)
             {
-                throw new Exception(exception.Message);
+
+                throw new Exception(exception.BaseMessage);
             }
         }
 
@@ -53,26 +40,16 @@ namespace Repositorio
         {
             try
             {
-
-                var query = string.Format(" SELECT id_pedido,    " +
-                                          "        data_pedido,  " +
-                                          "        valor_total," +
-                                          "        id_cliente  " +
-                                          " FROM vs_pedido       " +
-                                          " WHERE {0}", id);
+                var query = string.Format("SELECT * " +
+                                          "FROM vs_pedido " +
+                                          "WHERE id_pedido = '{0}'", id);
 
                 var dataReader = ExecutarReader(query);
-
-                return dataReader.FillList<Pedido>(ReaderParaObjeto).FirstOrDefault();
+                return dataReader.FillList<Pedido>(ReaderParaObejto).FirstOrDefault();
             }
             catch (NpgsqlException exception)
             {
-
-                throw new Exception(exception.Message);
-            }
-            finally
-            {
-                FecharConexao();
+                throw new Exception(exception.BaseMessage);
             }
         }
 
@@ -80,60 +57,49 @@ namespace Repositorio
         {
             try
             {
-                var query = string.Format(" SELECT id_pedido,   " +
-                                          "        data_pedido, " +
-                                          "        valor_total," +
-                                          "        id_cliente " +
-                                          " FROM vs_produto      ");
-
+                var query = string.Format("SELECT * " +
+                                      "FROM vs_pedido");
                 var dataReader = ExecutarReader(query);
-
-                return dataReader.FillList<Pedido>(ReaderParaObjeto);
+                return dataReader.FillList<Pedido>(ReaderParaObejto);
             }
             catch (NpgsqlException exception)
             {
 
-                throw new Exception(exception.Message);
-            }
-            finally
-            {
-                FecharConexao();
+                throw new Exception(exception.BaseMessage);
             }
         }
 
-        public List<NpgsqlParameter> PreparParametros(Pedido pedido)
+        public List<NpgsqlParameter> PreparaParamentros(Pedido pedido)
         {
-            var parametros = new List<NpgsqlParameter>();
+            var paramentros = new List<NpgsqlParameter>();
 
-            parametros.Add(new NpgsqlParameter("data_pedido", pedido.DataPedido));
-            parametros.Add(new NpgsqlParameter("valor_total", pedido.ValorTotal));
-            parametros.Add(new NpgsqlParameter("id_cliente", pedido.Cliente.Id));
+            paramentros.Add(pedido.Id != 0
+                ? new NpgsqlParameter("id_pedido", pedido.Id)
+                : new NpgsqlParameter("id_pedido", null));
 
-            return parametros;
+            paramentros.Add(new NpgsqlParameter("data_pedido", pedido.DataPedido));
+            paramentros.Add(new NpgsqlParameter("valor_total", pedido.ValorTotal));
+            paramentros.Add(new NpgsqlParameter("id_cliente", pedido.Cliente.Id));
+
+            return paramentros;
         }
 
-        public List<Pedido> ReaderParaObjeto(IDataReader reader)
+        public List<Pedido> ReaderParaObejto(IDataReader reader)
         {
-            var listaPedidos = new List<Pedido>();
+            var produtos = new List<Pedido>();
 
             while (reader.Read())
             {
-                var pedido = new Pedido();
+                var produto = new Pedido();
+                produto.Id = GetSafeField<int>(reader["id_pedido"], 0);
+                produto.DataPedido = Convert.ToDateTime(GetSafeField<string>(reader["data_pedido"].ToString(), DateTime.MinValue.ToString()), CultureInfo.CurrentCulture.DateTimeFormat);
+                produto.ValorTotal = GetSafeField<decimal>(reader["valor_total"], 0);
+                produto.Cliente.Id = GetSafeField<int>(reader["id_cliente"], 0);
 
-                pedido.Id = GetSafeField<int>(reader["id_pedido"], 0);
-                pedido.ValorTotal = GetSafeField<decimal>(reader["valor_total"], string.Empty);
-                pedido.DataPedido =
-                    Convert.ToDateTime(
-                        GetSafeField<string>(reader["data_pedido"].ToString(), DateTime.MinValue.ToString()), 
-                           CultureInfo.CurrentCulture.DateTimeFormat);
-                pedido.Cliente.Id = GetSafeField<int>(reader["id_cliente"], 0);
-
-                listaPedidos.Add(pedido);
+                produtos.Add(produto);
             }
 
-            return listaPedidos;
-
-
+            return produtos;
         }
     }
 }
