@@ -33,7 +33,7 @@ function listarClientes() {
         $.getJSON(actionListar, function (data) {
             $.each(data.clientes, function (i, item) {
                 tbClientes.append(
-                    "<tr>" +
+                    '<tr id="' + item.Id + '">' +
                     '   <td>               </td>' +
                     '   <td>' + item.Id + '</td>' +
                     '   <td>' + item.Nome + '</td>' +
@@ -41,7 +41,7 @@ function listarClientes() {
                     '   <td><label id="btn-modal-editar-cliente" class="btn btn-success" onclick="modalEditarCliente(' + item.Id + ');">Editar</label></td>' +
                     '   <td><label id="btn-modal-detalhar-cliente" class="btn btn-default" onclick="modalDetalharCliente(' + item.Id + ');">Detalhar</label></td>' +
                     '   <td><label id="btn-modal-excluir-cliente" class="btn btn-danger" onclick="modalExcluirCliente(' + item.Id + ');">Excluir</label></td>' +
-                    '   </tr>'
+                    '</tr>'
                 );
             });
         });
@@ -67,18 +67,52 @@ function inserirCliente() {
                     '   <div>').delay(400).fadeIn(800);
         } else {
             tbClientes.append(
-               "<tr>" +
+               '<tr id="' + data.objInserido.Id + '">' +
                     '   <td>               </td>' +
-                    '   <td>' + data.objetoInserido.Id + '</td>' +
-                    '   <td>' + data.objetoInserido.Nome + '</td>' +
-                    '   <td>' + data.objetoInserido.Email + '</td>' +
-                    '   <td><label id="btn-modal-editar-cliente" class="btn btn-success" onclick="modalEditarCliente(' + data.objetoInserido.Id + ');">Editar</label></td>' +
-                    '   <td><label id="btn-modal-detalhar-cliente" class="btn btn-default" onclick="modalDetalharCliente(' + data.objetoInserido.Id + ');">Detalhar</label></td>' +
-                    '   <td><label id="btn-modal-excluir-cliente" class="btn btn-danger" onclick="modalExcluirCliente(' + data.objetoInserido.Id + ');">Exluir</label></td>' +
-                    '   </tr>'
+                    '   <td>' + data.objInserido.Id + '</td>' +
+                    '   <td>' + data.objInserido.Nome + '</td>' +
+                    '   <td>' + data.objInserido.Email + '</td>' +
+                    '   <td><label id="btn-modal-editar-cliente" class="btn btn-success" onclick="modalEditarCliente(' + data.objInserido.Id + ');">Editar</label></td>' +
+                    '   <td><label id="btn-modal-detalhar-cliente" class="btn btn-default" onclick="modalDetalharCliente(' + data.objInserido.Id + ');">Detalhar</label></td>' +
+                    '   <td><label id="btn-modal-excluir-cliente" class="btn btn-danger" onclick="modalExcluirCliente(' + data.objInserido.Id + ');">Exluir</label></td>' +
+                '</tr>'
             );
             $('#modal').modal('hide');
-            location.reload();
+        }
+    }
+    ).fail(function (data) {
+        // implementar erro não tratado
+    });
+}
+
+function editarCliente(id) {
+
+    if (!validaCliente())
+        return;
+
+    var dados = $("#form-inserir-cliente").serialize();
+    $.post("/Cliente/Inserir/", dados, function () {
+
+    }).done(function (data) {
+        if (data.erro == true) {
+            $('#alerta-cliente')
+                .html(' <div class="alert alert-dismissible alert-danger">' +
+                    '           <button type="button" class="close" data-dismiss="alert">×</button>' +
+                    data.Message +
+                    '   <div>').delay(400).fadeIn(800);
+        } else {
+            $('#' + id).append(
+
+                     '   <td>               </td>' +
+                     '   <td>' + data.objInserido.Id + '</td>' +
+                     '   <td>' + data.objInserido.Nome + '</td>' +
+                     '   <td>' + data.objInserido.Email + '</td>' +
+                     '   <td><label id="btn-modal-editar-cliente" class="btn btn-success" onclick="modalEditarCliente(' + data.objInserido.Id + ');">Editar</label></td>' +
+                     '   <td><label id="btn-modal-detalhar-cliente" class="btn btn-default" onclick="modalDetalharCliente(' + data.objInserido.Id + ');">Detalhar</label></td>' +
+                     '   <td><label id="btn-modal-excluir-cliente" class="btn btn-danger" onclick="modalExcluirCliente(' + data.objInserido.Id + ');">Excluir</label></td>'
+
+             );
+            $('#modal').modal('hide');
         }
     }
     ).fail(function (data) {
@@ -87,10 +121,19 @@ function inserirCliente() {
 }
 
 function excluirCliente(id) {
-    $.post("/Cliente/ExcluirPorId/" + id, function() {
+    $.post("/Cliente/ExcluirPorId/" + id, function () {
 
-    }).done(function(data) {
-        console.log(data.message);
+    }).done(function (data) {
+        if (data.erro == true) {
+            $('#alerta-cliente')
+                .html(' <div class="alert alert-dismissible alert-danger">' +
+                    '           <button type="button" class="close" data-dismiss="alert">×</button>' +
+                    data.Message +
+                    '   <div>').delay(400).fadeIn(800);
+        } else {
+            $('#' + id).empty();
+            $('#modal').modal('hide');
+        }
     });
 
 }

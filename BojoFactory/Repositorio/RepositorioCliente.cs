@@ -65,8 +65,13 @@ namespace Repositorio
             }
             catch (NpgsqlException exception)
             {
+                if (exception.Code == "23503")
+                {
+                    throw new Exception("Erro na exclusão! Há pedidos vinculados ao cliente!");
+                }
                 
-                throw new Exception(exception.BaseMessage);
+                throw  new Exception(exception.BaseMessage);
+                
             }
         }
 

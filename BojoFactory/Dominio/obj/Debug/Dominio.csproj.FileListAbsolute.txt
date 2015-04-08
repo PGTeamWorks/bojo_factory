@@ -8,3 +8,8 @@ C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\Dominio\bin\Debug\D
 C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\Dominio\obj\Debug\Dominio.dll
 C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\Dominio\obj\Debug\Dominio.pdb
 C:\Users\Guilherme\Dropbox\PROJETOS\bojo_factory\BojoFactory\Dominio\obj\Debug\Dominio.csprojResolveAssemblyReference.cache
+C:\Users\Guilherme\Documents\PROJETOS\bojo_factory\BojoFactory\Dominio\bin\Debug\Dominio.dll
+C:\Users\Guilherme\Documents\PROJETOS\bojo_factory\BojoFactory\Dominio\bin\Debug\Dominio.pdb
+C:\Users\Guilherme\Documents\PROJETOS\bojo_factory\BojoFactory\Dominio\obj\Debug\Dominio.csprojResolveAssemblyReference.cache
+C:\Users\Guilherme\Documents\PROJETOS\bojo_factory\BojoFactory\Dominio\obj\Debug\Dominio.dll
+C:\Users\Guilherme\Documents\PROJETOS\bojo_factory\BojoFactory\Dominio\obj\Debug\Dominio.pdb

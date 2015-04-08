@@ -40,7 +40,6 @@ namespace BojoFactory.Controllers
                return Json(new {erro = true, exception.Message}, JsonRequestBehavior.AllowGet);
             }
            
-            
         }
 
         [HttpGet]
@@ -74,12 +73,13 @@ namespace BojoFactory.Controllers
             try
             {
                 var cliente = _repositorio.Deleta(id);
+
                 return Json(new {cliente}, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exception)
             {
-                
-                throw new Exception(exception.Message);
+
+                return Json(new { erro = true, exception.Message }, JsonRequestBehavior.AllowGet);
             }
            
         }
