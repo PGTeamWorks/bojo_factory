@@ -76,13 +76,19 @@ BEGIN
 		RAISE EXCEPTION 'Operação inválida: %', operacao;
 	END IF;
 
-	EXCEPTION WHEN unique_violation THEN
+	EXCEPTION 
+	  WHEN unique_violation THEN
 	    GET STACKED DIAGNOSTICS msg_exception := CONSTRAINT_NAME;
 
 	    IF msg_exception = 'uq_tb_cliente_cpf' THEN
-	        RAISE unique_violation USING MESSAGE = 'O cpf '||p_cpf||' já existe no cadastro';
+	      RAISE unique_violation USING MESSAGE = 'O cpf '||p_cpf||' já existe no cadastro';
 	    ELSIF msg_exception = 'uq_tb_cliente_email' THEN
-	        RAISE unique_violation USING MESSAGE = 'O e-mail '||p_email||' já existe no cadastro';
+	      RAISE unique_violation USING MESSAGE = 'O e-mail '||p_email||' já existe no cadastro';
+	    END IF;
+	  WHEN foreign_key_violation THEN
+	    GET STACKED DIAGNOSTICS msg_exception := CONSTRAINT_NAME;
+	    IF msg_exception = 'fk_tb_pedido_id_cliente' THEN
+	      RAISE foreign_key_violation USING MESSAGE = 'O cliente '||registro.nome||' não pode ser apagado pois o mesmo possui pedidos registrados';
 	    END IF;
 
 END;
