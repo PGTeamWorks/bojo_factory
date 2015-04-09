@@ -1,0 +1,40 @@
+﻿@model Dominio.Entidades.MateriaPrima
+           
+<div class="modal-dialog modal-medium">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Editar Materia Prima</h4>
+        </div>
+        <div class="modal-body">
+            <div class="container-fluid">
+                <form id="form-inserir-materia-prima" class="form-horizontal">
+                    <div class="form-group">
+                        <input name="Id" class="hidden" value="@Model.Id" />
+                        <label for="Descricao" class="col-md-2 control-label">Descrição</label>
+                        <div class="col-md-4">
+                            <input type="text" name="Descricao" value="@Model.Descricao" class="form-control" id="Descricao" placeholder="Descrição">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                       <label for="PrecoCusto" class="col-md-3 control-label">Preço de Custo</label>
+                        <div class="col-md-4">
+                            <input type="text" name="PrecoCusto" value="@Model.PrecoCusto" class="form-control " id="PrecoCusto" placeholder="Preço de Custo" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="SaldoEstoque" class="col-md-3 ">Saldo Estoque</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" value="@Model.PrecoCusto" name="SaldoEstoque" id="SaldoEstoque" placeholder="Saldo Estoque" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="reset" class="btn btn-default"><i class="glyphicon glyphicon-remove"></i> Limpar</button>
+            <button id="btn-salvar-materia-prima" type="button" onclick="editarMateriaPrima(@Model.Id);" class="btn btn-primary"><i class="glyphicon glyphicon-ok"></i> Salvar</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i> Fechar</button>
+        </div>
+    </div>
+    <div id="alerta-materia-prima"></div>
+</div>

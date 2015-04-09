@@ -74,7 +74,7 @@ function inserirCliente() {
                     '   <td>' + data.objInserido.Email + '</td>' +
                     '   <td><label id="btn-modal-editar-cliente" class="btn btn-success" onclick="modalEditarCliente(' + data.objInserido.Id + ');">Editar</label></td>' +
                     '   <td><label id="btn-modal-detalhar-cliente" class="btn btn-default" onclick="modalDetalharCliente(' + data.objInserido.Id + ');">Detalhar</label></td>' +
-                    '   <td><label id="btn-modal-excluir-cliente" class="btn btn-danger" onclick="modalExcluirCliente(' + data.objInserido.Id + ');">Exluir</label></td>' +
+                    '   <td><label id="btn-modal-excluir-cliente" class="btn btn-danger" onclick="modalExcluirCliente(' + data.objInserido.Id + ');">Excluir</label></td>' +
                 '</tr>'
             );
             $('#modal').modal('hide');
@@ -101,6 +101,7 @@ function editarCliente(id) {
                     data.Message +
                     '   <div>').delay(400).fadeIn(800);
         } else {
+            $('#' + id).empty();
             $('#' + id).append(
 
                      '   <td>               </td>' +

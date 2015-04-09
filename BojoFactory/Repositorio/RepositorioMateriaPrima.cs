@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Dominio.Entidades;
 using Dominio.Interfaces;
-using FluentNHibernate.Utils;
 using Infraestrutura;
 using Npgsql;
 
@@ -23,19 +19,46 @@ namespace Repositorio
             {
                 var parametros = PreparaParamentros(materia);
 
-                var query = string.Format("SELECT fn_materia_prima( :id_materia_prima, " +
+                var query = string.Format("SELECT * FROM fn_materia_prima( :id_materia_prima, " +
                                           "                         :descricao, " +
                                           "                         :saldo_estoque, " +
                                           "                         :preco_custo, " +
-                                          "                         :'{0}')",operacao);
+                                          "                          '{0}')", operacao);
 
                 var datareader = ExecutarReader(query, parametros);
                 return datareader.FillList<MateriaPrima>(ReaderParaObejto).FirstOrDefault();
             }
             catch (NpgsqlException exception)
             {
-                
+
                 throw new Exception(exception.BaseMessage);
+            }
+            finally
+            {
+                FecharConexao();
+            }
+        }
+
+        public int Deleta(int id)
+        {
+            try
+            {
+                var query = string.Format(" SELECT fn_materia_prima (  '{0}', " +
+                                          "                             NULL, " +
+                                          "                             NULL, " +
+                                          "                             NULL, " +
+                                          "                             'D')", id);
+
+                return ExecutarNonQuery(query);
+
+            }
+            catch (NpgsqlException exception)
+            {
+                throw new Exception(exception.BaseMessage);
+            }
+            finally
+            {
+                FecharConexao();
             }
         }
 
@@ -44,7 +67,7 @@ namespace Repositorio
             try
             {
                 var query = string.Format("SELECT * " +
-                                          "FROM vs_materia_prima " +
+                                          "FROM tb_materia_prima " +
                                           "WHERE id_materia_prima = '{0}'", id);
 
                 var dataReader = ExecutarReader(query);
@@ -54,6 +77,10 @@ namespace Repositorio
             {
                 throw new Exception(exception.BaseMessage);
             }
+            finally
+            {
+                FecharConexao();
+            }
         }
 
         public IEnumerable<MateriaPrima> Obter()
@@ -61,14 +88,18 @@ namespace Repositorio
             try
             {
                 var query = string.Format("SELECT * " +
-                                      "FROM vs_materia_prima");
+                                          "FROM tb_materia_prima");
                 var dataReader = ExecutarReader(query);
                 return dataReader.FillList<MateriaPrima>(ReaderParaObejto);
             }
             catch (NpgsqlException exception)
             {
-                
+
                 throw new Exception(exception.BaseMessage);
+            }
+            finally
+            {
+                FecharConexao();
             }
             
         }

@@ -72,15 +72,10 @@ label{
 .modal-medium {
     width: 700px;
 }
-/*.modal p{
-    font-size: medium;
-}
 
-.modal-title{
-    text-align: center;
+@media (min-width: 992px) {
+    .modal-lg {
+        width: 1100px;
+    }
 }
-
-.modal-footer{
-    text-align: center;
-}*/
 

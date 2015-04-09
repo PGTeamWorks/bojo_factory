@@ -19,13 +19,14 @@ namespace Repositorio
             {
                 var parametros = PreparaParamentros(produto);
 
-                var query = string.Format("SELECT fn_produto( :id_produto, " +
+                var query = string.Format("SELECT * " +
+                                          "FROM fn_produto( :id_produto, " +
                                           "                   :descricao, " +
                                           "                   :tamanho, " +
                                           "                   :cor, " +
                                           "                   :preco, " +
                                           "                   :saldo_estoque, " +
-                                          "                   :'{0}')", operacao);
+                                          "                   '{0}')", operacao);
 
                 var datareader = ExecutarReader(query, parametros);
                 return datareader.FillList<Produto>(ReaderParaObejto).FirstOrDefault();
@@ -42,7 +43,7 @@ namespace Repositorio
             try
             {
                 var query = string.Format("SELECT * " +
-                                          "FROM vs_produto " +
+                                          "FROM tb_produto " +
                                           "WHERE id_produto = '{0}'", id);
 
                 var dataReader = ExecutarReader(query);
@@ -59,7 +60,7 @@ namespace Repositorio
             try
             {
                 var query = string.Format("SELECT * " +
-                                      "FROM vs_produto");
+                                      "FROM tb_produto");
 
                 var dataReader = ExecutarReader(query);
                 return dataReader.FillList<Produto>(ReaderParaObejto);
@@ -68,6 +69,35 @@ namespace Repositorio
             {
 
                 throw new Exception(exception.BaseMessage);
+            }
+        }
+
+        public Cliente Deleta(int id)
+        {
+            try
+            {
+                var query = string.Format(" SELECT fn_produto ('{0}', " +
+                                          "                     NULL, " +
+                                          "                     NULL, " +
+                                          "                     NULL, " +
+                                          "                     NULL, " +
+                                          "                     NULL, " +
+                                          "                     'D')", id);
+
+                ExecutarNonQuery(query);
+
+                return null; //dataReader;
+
+            }
+            catch (NpgsqlException exception)
+            {
+                if (exception.Code == "23503")
+                {
+                    throw new Exception("Erro na exclusão! Há pedidos vinculados ao cliente!");
+                }
+
+                throw new Exception(exception.BaseMessage);
+
             }
         }
 

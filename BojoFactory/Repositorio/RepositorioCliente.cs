@@ -58,9 +58,9 @@ namespace Repositorio
                                           "                     NULL, " +
                                           "                     'D')",id);
 
-                var dataReader = ExecutarReader(query);
+                var dataReader = ExecutarNonQuery(query);
 
-                return dataReader.FillList<Cliente>(ReaderParaObejto).FirstOrDefault();
+                return null; //dataReader;
 
             }
             catch (NpgsqlException exception)

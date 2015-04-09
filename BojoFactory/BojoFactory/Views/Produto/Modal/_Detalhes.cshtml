@@ -1,0 +1,33 @@
+﻿@model Dominio.Entidades.Produto
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title">Produto @Model.Descricao</h4>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label>Código: </label>
+                <label>@Model.Id</label>
+            </div>
+            <div class="form-group">
+                <label>Tamanho: </label>
+                <label>@Model.Tamanho</label>
+            </div>
+            <div class="form-group">
+                <label class="">Cor: </label>
+                <label>@Model.Cor</label>
+            </div>
+            <div class="form-group">
+                <label>Preço:  </label>
+                <label>@Model.Preco</label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+        </div>
+    </div>
+</div>
+
+
