@@ -20,11 +20,11 @@ namespace Repositorio
             {
                 var parametros = PreparaParamentros(pedido);
 
-                var query = string.Format("SELECT fn_pedido( :id_pedido," +
+                var query = string.Format("SELECT * FROM fn_pedido( :id_pedido," +
                                           "                  :data_pedido," +
                                           "                  :valor_total," +
                                           "                  :id_cliente," +
-                                          "                  :'{0}')", operacao);
+                                          "                  '{0}')", operacao);
 
                 var datareader = ExecutarReader(query, parametros);
                 return datareader.FillList<Pedido>(ReaderParaObejto).FirstOrDefault();
@@ -34,6 +34,10 @@ namespace Repositorio
 
                 throw new Exception(exception.BaseMessage);
             }
+            finally
+            {
+                FecharConexao();
+            }
         }
 
         public Pedido ObterPorId(int id)
@@ -41,7 +45,7 @@ namespace Repositorio
             try
             {
                 var query = string.Format("SELECT * " +
-                                          "FROM vs_pedido " +
+                                          "FROM tb_pedido " +
                                           "WHERE id_pedido = '{0}'", id);
 
                 var dataReader = ExecutarReader(query);
@@ -51,14 +55,18 @@ namespace Repositorio
             {
                 throw new Exception(exception.BaseMessage);
             }
+            finally
+            {
+                FecharConexao();
+            }
         }
 
         public IEnumerable<Pedido> Obter()
         {
             try
             {
-                var query = string.Format("SELECT * " +
-                                      "FROM vs_pedido");
+                var query = string.Format(" SELECT * " +
+                                          " FROM tb_pedido");
                 var dataReader = ExecutarReader(query);
                 return dataReader.FillList<Pedido>(ReaderParaObejto);
             }
@@ -66,6 +74,10 @@ namespace Repositorio
             {
 
                 throw new Exception(exception.BaseMessage);
+            }
+            finally
+            {
+                FecharConexao();
             }
         }
 
@@ -79,7 +91,7 @@ namespace Repositorio
 
             paramentros.Add(new NpgsqlParameter("data_pedido", pedido.DataPedido));
             paramentros.Add(new NpgsqlParameter("valor_total", pedido.ValorTotal));
-            paramentros.Add(new NpgsqlParameter("id_cliente", pedido.Cliente.Id));
+            paramentros.Add(new NpgsqlParameter("id_cliente", pedido.IdCliente));
 
             return paramentros;
         }
@@ -92,9 +104,9 @@ namespace Repositorio
             {
                 var produto = new Pedido();
                 produto.Id = GetSafeField<int>(reader["id_pedido"], 0);
-                produto.DataPedido = Convert.ToDateTime(GetSafeField<string>(reader["data_pedido"].ToString(), DateTime.MinValue.ToString()), CultureInfo.CurrentCulture.DateTimeFormat);
+                produto.DataPedido = GetSafeField<DateTime>(reader["data_pedido"], DateTime.MinValue); //Convert.ToDateTime(GetSafeField<string>(reader["data_pedido"].ToString(), DateTime.MinValue.ToString()), CultureInfo.CurrentCulture.DateTimeFormat);
                 produto.ValorTotal = GetSafeField<decimal>(reader["valor_total"], 0);
-                produto.Cliente.Id = GetSafeField<int>(reader["id_cliente"], 0);
+                produto.IdCliente = GetSafeField<int>(reader["id_cliente"], 0);
 
                 produtos.Add(produto);
             }

@@ -72,7 +72,7 @@ function inserirProduto() {
                     '   <td><label id="btn-modal-editar-produto" class="btn btn-success" onclick="modalEditarProduto(' + data.objInserido.Id + ');">Editar</label></td>' +
                     '   <td><label id="btn-modal-detalhar-produto" class="btn btn-default" onclick="modalDetalharProduto(' + data.objInserido.Id + ');">Detalhar</label></td>' +
                     '   <td><label id="btn-modal-excluir-produto" class="btn btn-danger" onclick="modalExcluirProduto(' + data.objInserido.Id + ');">Excluir</label></td>' +
-                    '</tr>'
+               '</tr>'
             );
             $('#modal').modal('hide');
         }
@@ -100,7 +100,6 @@ function editarProduto(id) {
         } else {
             $('#' + id).empty();
             $('#' + id).append(
-                     '   <td>' + data.objInserido.Id + '</td>' +
                      '   <td>' + data.objInserido.Descricao + '</td>' +
                      '   <td>' + data.objInserido.Preco + '</td>' +
                      '   <td><label id="btn-modal-editar-produto" class="btn btn-success" onclick="modalEditarProduto(' + data.objInserido.Id + ');">Editar</label></td>' +

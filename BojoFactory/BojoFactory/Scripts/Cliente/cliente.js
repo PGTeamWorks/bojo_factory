@@ -103,7 +103,6 @@ function editarCliente(id) {
         } else {
             $('#' + id).empty();
             $('#' + id).append(
-
                      '   <td>               </td>' +
                      '   <td>' + data.objInserido.Id + '</td>' +
                      '   <td>' + data.objInserido.Nome + '</td>' +

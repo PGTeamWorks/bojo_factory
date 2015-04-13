@@ -50,16 +50,18 @@ namespace Infraestrutura
                         throw new Exception("Não foi inicializado o nome da conexão");
                     try
                     {
-                        var connString = System.Configuration.ConfigurationManager.ConnectionStrings[_connectionName].ConnectionString;
+                        var connString =
+                            System.Configuration.ConfigurationManager.ConnectionStrings[_connectionName]
+                                .ConnectionString;
 
                         //Não existe timeout no postgress =(
                         //if (connString.IndexOf("Connection Timeout", System.StringComparison.Ordinal) == -1)
                         //    connString += string.Format(";Connection Timeout={0}", _connectionTimeout);
                         _connection = new NpgsqlConnection(connString);
                     }
-                    catch (Exception ex)
+                    catch (NpgsqlException exception)
                     {
-                        throw ex;
+                        throw new Exception(exception.BaseMessage);
                     }
                 }
                 return _connection;
@@ -73,16 +75,24 @@ namespace Infraestrutura
             return Connection != null;
         }
 
-        protected NpgsqlDataReader ExecutarReader(string comando, List<NpgsqlParameter> parametros = null)
+        protected NpgsqlDataReader  ExecutarReader(string comando, List<NpgsqlParameter> parametros = null)
         {
-            AbrirConexao();
-            NpgsqlCommand comand = CreateCommand(comando);
-            if (parametros != null)
+            try
             {
-                comand.Parameters.AddRange(parametros.ToArray());
+                AbrirConexao();
+                NpgsqlCommand comand = CreateCommand(comando);
+                if (parametros != null)
+                {
+                    comand.Parameters.AddRange(parametros.ToArray());
+                }
+                comand.CommandType = CommandType.Text;
+                return comand.ExecuteReader();
             }
-            comand.CommandType = CommandType.Text;
-            return comand.ExecuteReader();
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+          
         }
 
         protected T GetSafeField<T>(object campoReader, object valorNulo)
@@ -138,14 +148,11 @@ namespace Infraestrutura
 
                 retorno = command.ExecuteNonQuery();
             }
-            catch (Exception ex)
+            catch (NpgsqlException ex)
             {
-                throw ex;
+                throw new Exception(ex.BaseMessage);
             }
-            finally
-            {
-                FecharConexao();
-            }
+           
             return retorno;
         }
         protected int ExecutarScalar(string comandoSql, List<NpgsqlParameter> parametros = null)
@@ -163,10 +170,7 @@ namespace Infraestrutura
             {
                 throw ex;
             }
-            finally
-            {
-                FecharConexao();
-            }
+          
             return retorno;
         }
 

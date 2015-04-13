@@ -125,6 +125,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MateriaPrimaController.cs" />
     <Compile Include="Controllers\PedidoController.cs" />
+    <Compile Include="Models\PedidoModel.cs" />
     <Compile Include="Controllers\ProdutoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -148,6 +149,7 @@
     <Content Include="Scripts\jquery.mask.min.js" />
     <Content Include="Scripts\Cliente\cliente.js" />
     <Content Include="Scripts\MateriaPrima\materiaPrima.js" />
+    <Content Include="Scripts\Pedido\pedido.js" />
     <Content Include="Scripts\Produto\produto.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -164,7 +166,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

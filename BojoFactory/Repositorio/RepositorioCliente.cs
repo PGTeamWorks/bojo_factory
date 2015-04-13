@@ -42,7 +42,7 @@ namespace Repositorio
             }
             finally
             {
-                base.FecharConexao();
+                FecharConexao();
             }
         }
 
@@ -73,6 +73,10 @@ namespace Repositorio
                 throw  new Exception(exception.BaseMessage);
                 
             }
+            finally
+            {
+                FecharConexao();
+            }
         }
 
         public Cliente ObterPorId(int id)
@@ -85,7 +89,7 @@ namespace Repositorio
                                           "       email,            " +
                                           "       telefone,         " +
                                           "       data_nascimento   " +
-                                          "FROM vs_cliente          " +
+                                          "FROM tb_cliente          " +
                                           "WHERE id_cliente = '{0}' ",id);
 
                 var dataReader = ExecutarReader(query);
@@ -97,13 +101,17 @@ namespace Repositorio
                 
                 throw new Exception(exception.BaseMessage);
             }
+            finally
+            {
+                FecharConexao();
+            }
         }
 
         public IEnumerable<Cliente> Obter()
         {
             try
             {
-                var query = string.Format("SELECT * FROM vs_cliente");
+                var query = string.Format("SELECT * FROM tb_cliente");
 
                 var dataReader = ExecutarReader(query);
 
@@ -116,11 +124,13 @@ namespace Repositorio
             {
 
                 throw new Exception(exception.BaseMessage);
+
             }
             finally
             {
                 FecharConexao();
             }
+           
         }
 
         public List<NpgsqlParameter> PreparaParamentros(Cliente cliente)
@@ -157,11 +167,8 @@ namespace Repositorio
                 cliente.Cpf = GetSafeField<string>(reader["cpf"], string.Empty);
                 cliente.Email = GetSafeField<string>(reader["email"], string.Empty);
                 cliente.Telefone = GetSafeField<string>(reader["telefone"], string.Empty);
-                cliente.DataNascimento =
-                    Convert.ToDateTime(
-                        GetSafeField<string>(reader["data_nascimento"].ToString(), DateTime.MinValue.ToString()),
-                        CultureInfo.CurrentCulture.DateTimeFormat);
-
+                cliente.DataNascimento = GetSafeField<DateTime>(reader["data_nascimento"], DateTime.MinValue);
+                 
                 clientes.Add(cliente);
             }
 

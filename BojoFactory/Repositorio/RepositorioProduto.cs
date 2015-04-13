@@ -36,6 +36,10 @@ namespace Repositorio
 
                 throw new Exception(exception.BaseMessage);
             }
+            finally
+            {
+                FecharConexao();
+            }
         }
 
         public Produto ObterPorId(int id)
@@ -53,6 +57,10 @@ namespace Repositorio
             {
                 throw new Exception(exception.BaseMessage);
             }
+            finally
+            {
+                FecharConexao();
+            }
         }
 
         public IEnumerable<Produto> Obter()
@@ -69,6 +77,10 @@ namespace Repositorio
             {
 
                 throw new Exception(exception.BaseMessage);
+            }
+            finally
+            {
+                FecharConexao();
             }
         }
 
@@ -98,6 +110,10 @@ namespace Repositorio
 
                 throw new Exception(exception.BaseMessage);
 
+            }
+            finally
+            {
+                FecharConexao();
             }
         }
 
