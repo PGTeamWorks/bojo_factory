@@ -1,5 +1,6 @@
 ﻿$(document).ready(function () {
     listarProduto();
+    //carregarMateriaPrima();
     exibirModalInserirCliente();
 });
 
@@ -22,6 +23,18 @@ function modalDetalharProduto(id) {
 function modalExcluirProduto(id) {
     $("#modal").load("/Produto/Excluir/" + id).modal('show');
 }
+
+//function carregarMateriaPrima() {
+//    var select = $('#slc-materia-prima');
+//    var htmlOptions = '';
+
+//    $.getJSON('/MateriaPrima/Listar/', function (data) {
+//        $.each(data.materiasPrima, function (i, materiaPrima) {
+//            htmlOptions += '<option value="' + materiaPrima.Id + '">' + materiaPrima.Descricao + '</option>';
+//        });
+//        select.append(htmlOptions);
+//    });
+//}
 
 function listarProduto() {
 
@@ -53,9 +66,19 @@ function inserirProduto() {
     if (!validaProduto())
         return;
 
-    var dados = $("#form-inserir-produto").serialize();
-    $.post("/Produto/Inserir/", dados, function () {
+    //var idMateriaPrima = $('#slc-materia-prima option:selected').val();
+    //var qntMateriaPrima = $('#quantidadeMp').val();
+    //var objMp = new Object();
+    //objMp.IdMateriaPrima = idMateriaPrima;
+    //objMp.Quantidade = qntMateriaPrima;
 
+    var dados = $("#form-inserir-produto").serialize();
+
+    alert(dados);
+    //alert(objMp);
+
+    //$.post("/Produto/Inserir/", { produto: dados, formula: objMp }, function () {
+    $.post("/Produto/Inserir/", dados, function () {
     }).done(function (data) {
         if (data.erro == true) {
             $('#alerta-produto')
@@ -66,7 +89,6 @@ function inserirProduto() {
         } else {
             tbProduto.append(
                '<tr id="' + data.objInserido.Id + '">' +
-                    '   <td>' + data.objInserido.Id + '</td>' +
                     '   <td>' + data.objInserido.Descricao + '</td>' +
                     '   <td>' + data.objInserido.Preco + '</td>' +
                     '   <td><label id="btn-modal-editar-produto" class="btn btn-success" onclick="modalEditarProduto(' + data.objInserido.Id + ');">Editar</label></td>' +

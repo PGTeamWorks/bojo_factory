@@ -97,16 +97,6 @@ namespace Infraestrutura
 
         protected T GetSafeField<T>(object campoReader, object valorNulo)
         {
-            //vc passa o reader do campo pra ele, e o valor que voce quer, caso retorne nulo do banco
-            //ele só veridica se é nulo e retorna o valor fazendo um cast pra T
-            // da hroa acho que esse já entendi... ele apenas pega o campo do reader e seta como o tipo que eu quero? e
-            // e se não tiver retorna nulow
-            //nao, se ele for nulo, ele retornar o valor q vc passou no "valorNulo"
-            // sakei
-            //pra bancos bem estruturados, não é pra dar pau, mas por ex, as vezes vc espera q um valor nunca seja nulo, mas 
-            //por alguma merda veio nulo, aquele seu reader["campo"].toString() ia dar null point exception
-            //ok :)
-            //acho q era só, de resto é o abre fecha e executa comando
             if (campoReader is DBNull)
             {
                 return (T)valorNulo;

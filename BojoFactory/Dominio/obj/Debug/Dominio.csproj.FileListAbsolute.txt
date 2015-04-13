@@ -13,3 +13,8 @@ C:\Users\Guilherme\Documents\PROJETOS\bojo_factory\BojoFactory\Dominio\bin\Debug
 C:\Users\Guilherme\Documents\PROJETOS\bojo_factory\BojoFactory\Dominio\obj\Debug\Dominio.dll
 C:\Users\Guilherme\Documents\PROJETOS\bojo_factory\BojoFactory\Dominio\obj\Debug\Dominio.pdb
 C:\Users\Guilherme\Documents\PROJETOS\bojo_factory\BojoFactory\Dominio\obj\Debug\Dominio.csprojResolveAssemblyReference.cache
+C:\Users\NBQ00-029\Documents\PROJETOS\bojo_factory\BojoFactory\Dominio\bin\Debug\Dominio.dll
+C:\Users\NBQ00-029\Documents\PROJETOS\bojo_factory\BojoFactory\Dominio\bin\Debug\Dominio.pdb
+C:\Users\NBQ00-029\Documents\PROJETOS\bojo_factory\BojoFactory\Dominio\obj\Debug\Dominio.csprojResolveAssemblyReference.cache
+C:\Users\NBQ00-029\Documents\PROJETOS\bojo_factory\BojoFactory\Dominio\obj\Debug\Dominio.dll
+C:\Users\NBQ00-029\Documents\PROJETOS\bojo_factory\BojoFactory\Dominio\obj\Debug\Dominio.pdb

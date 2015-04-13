@@ -8,10 +8,10 @@ namespace Dominio.Entidades
 {
     public class Formula
     {
-        public Int32 Id { get; set; }
-        public Produto ProdutoId { get; set; }
-        public MateriaPrima MateriaPrimaId { get; set; }
-        public decimal Quantida { get; set; }
+        public int Id { get; set; }
+        public int IdProduto { get; set; }
+        public int IdMateriaPrima { get; set; }
+        public decimal Quantidade { get; set; }
 
     }
 }

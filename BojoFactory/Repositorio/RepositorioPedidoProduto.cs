@@ -10,7 +10,7 @@ namespace Repositorio
 {
     public class RepositorioPedidoProduto : BaseData
     {
-        public PedidoProduto InsereAltera(PedidoProduto pedidoProduto)
+        public int InsereAltera(PedidoProduto pedidoProduto)
         {
             var operacao = pedidoProduto.Id == 0 ? "I" : "U";
 
@@ -25,18 +25,15 @@ namespace Repositorio
                                           "                                 :valor_unitario,"+
                                           "                                 '{0}')", operacao);
 
-                var datareader = ExecutarReader(query, parametros);
-                return datareader.FillList<PedidoProduto>(ReaderParaObejto).FirstOrDefault();
+                var datareader = ExecutarNonQuery(query, parametros);
+                return datareader;
             }
             catch (NpgsqlException exception)
             {
 
                 throw new Exception(exception.BaseMessage);
             }
-            finally
-            {
-                FecharConexao();
-            }
+           
         }
 
         public PedidoProduto ObterPorId(int id)

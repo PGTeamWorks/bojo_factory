@@ -25,3 +25,17 @@ C:\Users\Guilherme\Documents\PROJETOS\bojo_factory\BojoFactory\Infraestrutura\bi
 C:\Users\Guilherme\Documents\PROJETOS\bojo_factory\BojoFactory\Infraestrutura\obj\Debug\Infraestrutura.csprojResolveAssemblyReference.cache
 C:\Users\Guilherme\Documents\PROJETOS\bojo_factory\BojoFactory\Infraestrutura\obj\Debug\Infraestrutura.dll
 C:\Users\Guilherme\Documents\PROJETOS\bojo_factory\BojoFactory\Infraestrutura\obj\Debug\Infraestrutura.pdb
+C:\Users\NBQ00-029\Documents\PROJETOS\bojo_factory\BojoFactory\Infraestrutura\bin\Debug\Infraestrutura.dll
+C:\Users\NBQ00-029\Documents\PROJETOS\bojo_factory\BojoFactory\Infraestrutura\bin\Debug\Infraestrutura.pdb
+C:\Users\NBQ00-029\Documents\PROJETOS\bojo_factory\BojoFactory\Infraestrutura\bin\Debug\Mono.Security.dll
+C:\Users\NBQ00-029\Documents\PROJETOS\bojo_factory\BojoFactory\Infraestrutura\bin\Debug\Npgsql.dll
+C:\Users\NBQ00-029\Documents\PROJETOS\bojo_factory\BojoFactory\Infraestrutura\bin\Debug\Npgsql.xml
+C:\Users\NBQ00-029\Documents\PROJETOS\bojo_factory\BojoFactory\Infraestrutura\bin\Debug\de\Npgsql.resources.dll
+C:\Users\NBQ00-029\Documents\PROJETOS\bojo_factory\BojoFactory\Infraestrutura\bin\Debug\es\Npgsql.resources.dll
+C:\Users\NBQ00-029\Documents\PROJETOS\bojo_factory\BojoFactory\Infraestrutura\bin\Debug\fi\Npgsql.resources.dll
+C:\Users\NBQ00-029\Documents\PROJETOS\bojo_factory\BojoFactory\Infraestrutura\bin\Debug\fr\Npgsql.resources.dll
+C:\Users\NBQ00-029\Documents\PROJETOS\bojo_factory\BojoFactory\Infraestrutura\bin\Debug\ja\Npgsql.resources.dll
+C:\Users\NBQ00-029\Documents\PROJETOS\bojo_factory\BojoFactory\Infraestrutura\bin\Debug\zh-CN\Npgsql.resources.dll
+C:\Users\NBQ00-029\Documents\PROJETOS\bojo_factory\BojoFactory\Infraestrutura\obj\Debug\Infraestrutura.csprojResolveAssemblyReference.cache
+C:\Users\NBQ00-029\Documents\PROJETOS\bojo_factory\BojoFactory\Infraestrutura\obj\Debug\Infraestrutura.dll
+C:\Users\NBQ00-029\Documents\PROJETOS\bojo_factory\BojoFactory\Infraestrutura\obj\Debug\Infraestrutura.pdb

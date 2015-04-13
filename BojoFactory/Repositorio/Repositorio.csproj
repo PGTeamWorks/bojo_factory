@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositorioCliente.cs" />
+    <Compile Include="RepositorioFormula.cs" />
     <Compile Include="RepositorioMateriaPrima.cs" />
     <Compile Include="RepositorioPedido.cs" />
     <Compile Include="RepositorioPedidoProduto.cs" />

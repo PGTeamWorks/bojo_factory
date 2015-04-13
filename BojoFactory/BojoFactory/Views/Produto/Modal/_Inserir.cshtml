@@ -1,4 +1,7 @@
-﻿<div class="modal-dialog modal-medium">
+﻿
+<script src="~/Scripts/Produto/inserirMP.js"></script>
+
+<div class="modal-dialog modal-medium">
     <div class="modal-content">
         <div class="modal-header">
             <h4 class="modal-title">Novo Produto</h4>
@@ -6,6 +9,18 @@
         <div class="modal-body">
             <div class="container-fluid">
                 <form id="form-inserir-produto" class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            <select class="form-control" id="slc-materia-prima">
+                                <option value="">Materias Prima</option>
+                            </select>
+                            <input type="hidden" name="IdMateriaPrima" id="idMp"/>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Quantidade Materia Prima</label>
+                            <input type="text" name="QntMateriaPrima" class="form-control" id="quantidadeMp" />
+                        </div>
+                    </div>
                     <div class="form-group">
                         <div class="col-md-6">
                             <label for="Descricao" class="control-label">Descricao</label>

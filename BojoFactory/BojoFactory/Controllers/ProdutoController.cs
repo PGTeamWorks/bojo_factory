@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
+using BojoFactory.ViewModel;
 using Dominio.Entidades;
 using Repositorio;
 
@@ -8,6 +9,7 @@ namespace BojoFactory.Controllers
     public class ProdutoController : Controller
     {
         private readonly RepositorioProduto _repositorioProduto = new RepositorioProduto();
+        private readonly  RepositorioFormula _repositorioFormula = new RepositorioFormula();
 
         // GET: Produto
         public ActionResult Index()
@@ -21,11 +23,30 @@ namespace BojoFactory.Controllers
         }
 
         [HttpPost]
-        public ActionResult Inserir(Produto produto)
+        public ActionResult Inserir(ProdutoMPViewModel produtoView)
         {
             try
             {
+                var produto = new Produto
+                {
+                    Descricao = produtoView.Descricao,
+                    Cor = produtoView.Cor,
+                    Preco = produtoView.Preco,
+                    SaldoEstoque = produtoView.SaldoEstoque,
+                    Tamanho = produtoView.Tamanho
+                };
+
                 var objInserido = _repositorioProduto.InsereAltera(produto);
+
+                var formula = new Formula
+                {
+                    IdMateriaPrima = produtoView.IdMateriaPrima,
+                    IdProduto = objInserido.Id,
+                    Quantidade = produtoView.QntMateriaPrima
+                };
+
+                var formulaInserida = _repositorioFormula.InsereAltera(formula);
+                
                 return Json(new { objInserido }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception exception)
@@ -77,4 +98,5 @@ namespace BojoFactory.Controllers
 
         }
     }
+    
 }
